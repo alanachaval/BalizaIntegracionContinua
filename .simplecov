@@ -1,3 +1,3 @@
 SimpleCov.start do
-  add_filter '/build/'
+  add_filter 'build/'
 end
