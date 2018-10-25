@@ -1,15 +1,15 @@
-add_library(example "")
+add_library(dominio "")
 
 target_sources(
-    example
+    dominio
     PRIVATE
-        example.cpp
+        procesador.cpp
     PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/example.h
+        ${CMAKE_CURRENT_LIST_DIR}/procesador.hpp
     )
 
 target_include_directories(
-    example
+    dominio
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
     )
