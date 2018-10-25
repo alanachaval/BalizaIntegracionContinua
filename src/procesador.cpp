@@ -1,6 +1,15 @@
 #include "procesador.hpp"
 
-dominio::Estados dominio::Procesador::ObtenerEstado()
+using namespace dominio;
+
+EstadoDelBuild Procesador::ObtenerEstado()
 {
-    return dominio::kEstadoDesconocido;
+    return request_->ObtenerEstado();
 }
+
+void Procesador::SetRequest(Request *request) {
+    request_ = request;
+}
+
+void Procesador::SetVisualizadorDeEstado(VisualizadorDeEstado *) {}
+void Procesador::ActualizarEstado() {}

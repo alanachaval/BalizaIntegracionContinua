@@ -1,0 +1,15 @@
+#ifndef BALIZAINTEGRACIONCONTINUA_VISUALIZADOR_DE_ESTADO_H_
+#define BALIZAINTEGRACIONCONTINUA_VISUALIZADOR_DE_ESTADO_H_
+
+namespace dominio
+{
+
+class VisualizadorDeEstado
+{
+public:
+  
+};
+
+} // namespace dominio
+
+#endif // BALIZAINTEGRACIONCONTINUA_VISUALIZADOR_DE_ESTADO_H_
