@@ -1,6 +1,6 @@
 #include "procesador.hpp"
 
-dominio::Procesador::Estados dominio::Procesador::Estado()
+dominio::Estados dominio::Procesador::ObtenerEstado()
 {
-    return kDesconocido;
+    return dominio::kEstadoDesconocido;
 }

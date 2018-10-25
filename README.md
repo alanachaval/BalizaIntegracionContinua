@@ -3,10 +3,13 @@
 
 Ciclo para ejecutar tests desde la consola
 
+```
 cmake -H. -Bbuild
 cd build
 cmake --build .
 ./bin/unit_tests
 cd ..
+
+```
 
 Formato del codigo utilizado: https://google.github.io/styleguide/cppguide.html

@@ -5,5 +5,5 @@ TEST(Procesador, inicializa_en_estado_desconocido)
 {
     dominio::Procesador *procesador = new dominio::Procesador();
 
-    ASSERT_EQ(dominio::Procesador::Estados::kDesconocido, procesador->Estado());
+    ASSERT_EQ(dominio::kEstadoDesconocido, procesador->ObtenerEstado());
 }
