@@ -1,7 +1,7 @@
-#ifndef BALIZAINTEGRACIONCONTINUA_PROCESADOR_H_
-#define BALIZAINTEGRACIONCONTINUA_PROCESADOR_H_
+#ifndef BALIZAINTEGRACIONCONTINUA_DOMINIO_PROCESADOR_H_
+#define BALIZAINTEGRACIONCONTINUA_DOMINIO_PROCESADOR_H_
 
-#include "request.hpp"
+#include "../adaptadores/request.hpp"
 #include "visualizador_de_estado.hpp"
 
 namespace dominio
@@ -23,4 +23,4 @@ private:
 
 } // namespace dominio
 
-#endif // BALIZAINTEGRACIONCONTINUA_PROCESADOR_H_
+#endif // BALIZAINTEGRACIONCONTINUA_DOMINIO_PROCESADOR_H_

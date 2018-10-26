@@ -1,7 +1,7 @@
 #include "gmock/gmock.h"
-#include "controlador_led.hpp"
+#include "adaptadores/controlador_led.hpp"
 
-using namespace dominio;
+using namespace adaptadores;
 
 class MockControladorLed : public ControladorLed
 {

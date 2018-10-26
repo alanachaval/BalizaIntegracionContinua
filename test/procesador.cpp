@@ -1,11 +1,11 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
+#include "adaptadores/request.hpp"
+#include "adaptadores/controlador_led.hpp"
 #include "mocks/mock_request.cpp"
 #include "mocks/mock_controlador_led.cpp"
-#include "procesador.hpp"
-#include "request.hpp"
-#include "visualizador_de_estado.hpp"
-#include "controlador_led.hpp"
+#include "dominio/procesador.hpp"
+#include "dominio/visualizador_de_estado.hpp"
 
 using namespace dominio;
 using ::testing::AtLeast;

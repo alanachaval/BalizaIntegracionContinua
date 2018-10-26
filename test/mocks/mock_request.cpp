@@ -1,7 +1,7 @@
 #include "gmock/gmock.h"
-#include "request.hpp"
+#include "adaptadores/request.hpp"
 
-using namespace dominio;
+using namespace adaptadores;
 
 class MockRequest : public Request
 {

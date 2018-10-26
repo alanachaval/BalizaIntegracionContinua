@@ -1,13 +1,14 @@
-#ifndef BALIZAINTEGRACIONCONTINUA_VISUALIZADOR_DE_ESTADO_H_
-#define BALIZAINTEGRACIONCONTINUA_VISUALIZADOR_DE_ESTADO_H_
+#ifndef BALIZAINTEGRACIONCONTINUA_DOMINIO_VISUALIZADOR_DE_ESTADO_H_
+#define BALIZAINTEGRACIONCONTINUA_DOMINIO_VISUALIZADOR_DE_ESTADO_H_
 
-#include "controlador_led.hpp"
+#include "../adaptadores/controlador_led.hpp"
 #include "estado_del_build.hpp"
 
 namespace dominio
 {
 
 using namespace dominio;
+using namespace adaptadores;
 
 class VisualizadorDeEstado
 {
@@ -23,4 +24,4 @@ private:
 
 } // namespace dominio
 
-#endif // BALIZAINTEGRACIONCONTINUA_VISUALIZADOR_DE_ESTADO_H_
+#endif // BALIZAINTEGRACIONCONTINUA_DOMINIO_VISUALIZADOR_DE_ESTADO_H_
