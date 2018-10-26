@@ -8,8 +8,8 @@ namespace dominio
 
 class Request
 {
-  public:
-    virtual EstadoDelBuild ObtenerEstado() = 0;
+public:
+  virtual EstadoDelBuild ObtenerEstado() = 0;
 };
 
 } // namespace dominio

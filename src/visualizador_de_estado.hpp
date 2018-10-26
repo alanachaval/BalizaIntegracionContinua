@@ -10,12 +10,12 @@ using namespace dominio;
 
 class VisualizadorDeEstado
 {
-  public:
-    void SetControladorLed(ControladorLed *controlador_led);
-    void Actualizar(int milisegundos);
+public:
+  void SetControladorLed(ControladorLed *controlador_led);
+  void Actualizar(int milisegundos);
 
-  private:
-    ControladorLed *controlador_led_;
+private:
+  ControladorLed *controlador_led_;
 };
 
 } // namespace dominio
