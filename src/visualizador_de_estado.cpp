@@ -16,13 +16,17 @@ void VisualizadorDeEstado::Actualizar(int milisegundos)
 {
     switch (estado_del_build_)
     {
+    case kEstadoDesconocido:
+        controlador_led_->PrenderLedRojo();
+        controlador_led_->PrenderLedVerde();
+        break;
     case kEstadoCorrecto:
         controlador_led_->PrenderLedVerde();
         controlador_led_->ApagarLedRojo();
         break;
-    case kEstadoDesconocido:
+    case kEstadoIncorrecto:
+        controlador_led_->ApagarLedVerde();
         controlador_led_->PrenderLedRojo();
-        controlador_led_->PrenderLedVerde();
         break;
     default:
         controlador_led_->ApagarLedRojo();

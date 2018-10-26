@@ -74,3 +74,27 @@ TEST(Procesador, obtiene_estado_correcto_y_lo_asigna)
     delete visualizador_de_estado;
     delete controlador_de_led;
 }
+
+TEST(Procesador, obtiene_estado_incorrecto_y_lo_asigna)
+{
+    Procesador *procesador = new Procesador();
+    MockRequest *request = new MockRequest();
+    VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
+    MockControladorLed *controlador_de_led = new MockControladorLed();
+
+    visualizador_de_estado->SetControladorLed(controlador_de_led);
+    procesador->SetRequest(request);
+    procesador->SetVisualizadorDeEstado(visualizador_de_estado);
+
+    EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoIncorrecto));
+    EXPECT_CALL(*controlador_de_led, ApagarLedVerde()).Times(1);
+    EXPECT_CALL(*controlador_de_led, PrenderLedRojo()).Times(1);
+
+    procesador->ActualizarEstado();
+    visualizador_de_estado->Actualizar(1);
+
+    delete procesador;
+    delete request;
+    delete visualizador_de_estado;
+    delete controlador_de_led;
+}
