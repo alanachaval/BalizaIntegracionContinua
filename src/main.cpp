@@ -1,28 +1,54 @@
 #include <Arduino.h>
-// Load Wi-Fi library
 #include <WiFi.h>
+#include "adaptadores/controlador_led_built_in.hpp"
 #include "adaptadores/servidor_wifi.hpp"
+#include "adaptadores/request_travis.hpp"
+#include "adaptadores/request_travis.hpp"
+#include "adaptadores/cliente_wifi.hpp"
 
 using namespace adaptadores;
 
-// Replace with your network credentials
-const char* ssid     = "ESP32-Access-Point";
-const char* password = "123456789";
+//const char *ssid = "ESP32-Access-Point";
+//const char *password = "123456789";
 
-ServidorWiFi* servidor_wifi;
+const char *ssid = "ssid";
+const char *password = "password";
 
-void setup() {
-  servidor_wifi = new ServidorWiFi();
+//ServidorWiFi *servidor_wifi;
+
+Request *request;
+ClienteWiFi *wifi;
+ControladorLed *controladorLedMain;
+
+void setup()
+{
+  //servidor_wifi = new ServidorWiFi();
+  request = new RequestTravis("dyasc-2018", "some_token");
   Serial.begin(115200);
 
-  Serial.print("Setting AP (Access Point)…");
-  servidor_wifi->Iniciar(ssid, password);
+  //Serial.print("Setting AP (Access Point)…");
+  //servidor_wifi->Iniciar(ssid, password);
 
-  Serial.print("AP IP address: ");
-  Serial.println(servidor_wifi->ObtenerIP());
-  
+  //Serial.print("AP IP address: ");
+  //Serial.println(servidor_wifi->ObtenerIP());
+
+  controladorLedMain = new ControladorLedBuiltIn();
+  //wifi = new Wifi();
+  //request = new RequestTravis();
 }
 
-void loop(){
- servidor_wifi->AtenderCliente();
+void loop()
+{
+  if (wifi->EstaConectado())
+  {
+    controladorLedMain->PrenderLedRojo();
+    request->ObtenerEstado();
+  }
+  else
+  {
+    controladorLedMain->ApagarLedRojo();
+    wifi->Conectar(ssid, password);
+  }
+  delay(10000);
+  //servidor_wifi->AtenderCliente();
 }

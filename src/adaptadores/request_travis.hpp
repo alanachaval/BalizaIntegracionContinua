@@ -12,8 +12,13 @@ using namespace adaptadores;
 
 class RequestTravis : public Request
 {
-  public:
-    virtual EstadoDelBuild ObtenerEstado();
+public:
+  RequestTravis(const char *repositorio, const char *token);
+  virtual EstadoDelBuild ObtenerEstado();
+
+private:
+  const char *repositorio_;
+  const char *token_;
 };
 
 } // namespace adaptadores

@@ -2,16 +2,31 @@
 #include "request_travis.hpp"
 #include <HTTPClient.h>
 #include <Arduino.h>
+#include <sstream>
 
 using namespace dominio;
 using namespace adaptadores;
 
+RequestTravis::RequestTravis(const char *repositorio, const char *token)
+{
+    repositorio_ = repositorio;
+    token_ = token;
+}
+
 EstadoDelBuild RequestTravis::ObtenerEstado()
 {
     HTTPClient http;
-    http.begin("https://api.travis-ci.com/builds?limit=1");
+    std::stringstream url;
+    std::stringstream token;
+    url << "https://api.travis-ci.com/repo/" << repositorio_ << "/builds?limit=1";
+    token << "token " << token_;
+    http.begin(url.str().c_str());
     http.addHeader("Travis-API-Version", "3", false, false);
+<<<<<<< HEAD
     http.addHeader("Authorization", "token some_token", false, false);
+=======
+    http.addHeader("Authorization", token.str().c_str(), false, false);
+>>>>>>> af4c3a8... request travis con parametros
     int httpCode = http.GET();
 
     if (httpCode > 0)
@@ -28,4 +43,8 @@ EstadoDelBuild RequestTravis::ObtenerEstado()
     http.end();
 
     return kEstadoDesconocido;
+}
+
+const char *StringEstado(const char *payload)
+{
 }
