@@ -1,22 +1,22 @@
-#include "wifi.hpp"
+#include "cliente_wifi.hpp"
 #include <WiFi.h>
 #include <Arduino.h>
 
 using namespace adaptadores;
 
-bool Wifi::conectar(const char *ssid, const char *password)
+bool ClienteWiFi::Conectar(const char *ssid, const char *password)
 {
     int intentos = 40;
     WiFi.begin(ssid, password);
 
-    while (!this->estaConectado() && intentos > 0)
+    while (!this->EstaConectado() && intentos > 0)
     {
         delay(1000);
         intentos--;
         Serial.println("Connecting to WiFi..");
     }
 
-    if (this->estaConectado())
+    if (this->EstaConectado())
     {
         Serial.println("Connected to the WiFi network");
     }
@@ -25,10 +25,10 @@ bool Wifi::conectar(const char *ssid, const char *password)
         Serial.println("Not connected!");
     }
 
-    return this->estaConectado();
+    return this->EstaConectado();
 }
 
-bool Wifi::estaConectado()
+bool ClienteWiFi::EstaConectado()
 {
     return WiFi.status() == WL_CONNECTED;
 }
