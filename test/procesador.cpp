@@ -36,6 +36,7 @@ TEST(Procesador, obtiene_estado_desconocido_y_lo_asigna)
     MockControladorLed *controlador_de_led = new MockControladorLed();
     visualizador_de_estado->SetControladorLed(controlador_de_led);
     procesador->SetRequest(request);
+    procesador->SetVisualizadorDeEstado(visualizador_de_estado);
 
     EXPECT_CALL(*request, ObtenerEstado())
         .Times(AtLeast(1))
