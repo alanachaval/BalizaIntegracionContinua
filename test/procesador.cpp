@@ -15,12 +15,11 @@ TEST(VisualizadorDeEstado, inicializa_en_estado_desconocido)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLed *controlador_de_led = new MockControladorLed();
+
     visualizador_de_estado->SetControladorLed(controlador_de_led);
 
-    EXPECT_CALL(*controlador_de_led, PrenderLedRojo())
-        .Times(1);
-    EXPECT_CALL(*controlador_de_led, PrenderLedVerde())
-        .Times(1);
+    EXPECT_CALL(*controlador_de_led, PrenderLedRojo()).Times(1);
+    EXPECT_CALL(*controlador_de_led, PrenderLedVerde()).Times(1);
 
     visualizador_de_estado->Actualizar(1);
 
@@ -34,17 +33,14 @@ TEST(Procesador, obtiene_estado_desconocido_y_lo_asigna)
     MockRequest *request = new MockRequest();
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLed *controlador_de_led = new MockControladorLed();
+
     visualizador_de_estado->SetControladorLed(controlador_de_led);
     procesador->SetRequest(request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
-
-    EXPECT_CALL(*request, ObtenerEstado())
-        .Times(AtLeast(1))
-        .WillRepeatedly(Return(kEstadoDesconocido));
-    EXPECT_CALL(*controlador_de_led, PrenderLedRojo())
-        .Times(1);
-    EXPECT_CALL(*controlador_de_led, PrenderLedVerde())
-        .Times(1);
+    
+    EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoDesconocido));
+    EXPECT_CALL(*controlador_de_led, PrenderLedRojo()).Times(1);
+    EXPECT_CALL(*controlador_de_led, PrenderLedVerde()).Times(1);
 
     procesador->ActualizarEstado();
     visualizador_de_estado->Actualizar(1);
@@ -61,17 +57,14 @@ TEST(Procesador, obtiene_estado_correcto_y_lo_asigna)
     MockRequest *request = new MockRequest();
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLed *controlador_de_led = new MockControladorLed();
+
     visualizador_de_estado->SetControladorLed(controlador_de_led);
     procesador->SetRequest(request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
 
-    EXPECT_CALL(*request, ObtenerEstado())
-        .Times(AtLeast(1))
-        .WillOnce(Return(kEstadoCorrecto));
-    EXPECT_CALL(*controlador_de_led, PrenderLedVerde())
-        .Times(1);
-    EXPECT_CALL(*controlador_de_led, PrenderLedRojo())
-        .Times(0);
+    EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoCorrecto));
+    EXPECT_CALL(*controlador_de_led, PrenderLedVerde()).Times(1);
+    EXPECT_CALL(*controlador_de_led, ApagarLedRojo()).Times(1);
 
     procesador->ActualizarEstado();
     visualizador_de_estado->Actualizar(1);
