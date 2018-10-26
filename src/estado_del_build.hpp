@@ -7,7 +7,8 @@ namespace dominio
 enum EstadoDelBuild
 {
   kEstadoDesconocido = 0,
-  kEstadoCorrecto = 1
+  kEstadoCorrecto = 1,
+  kEstadoIncorrecto = 2
 };
 
 } // namespace dominio
