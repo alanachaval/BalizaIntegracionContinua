@@ -12,13 +12,13 @@ using namespace dominio;
 class Procesador
 {
 public:
-  EstadoDelBuild ObtenerEstado();
   void SetRequest(Request *request);
-  void SetVisualizadorDeEstado(VisualizadorDeEstado *);
+  void SetVisualizadorDeEstado(VisualizadorDeEstado *visualizador_de_estado);
   void ActualizarEstado();
 
 private:
   Request *request_;
+  VisualizadorDeEstado *visualizador_de_estado_;
 };
 
 } // namespace dominio
