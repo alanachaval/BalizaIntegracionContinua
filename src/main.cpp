@@ -33,7 +33,7 @@ void setup()
   //Serial.println(servidor_wifi->ObtenerIP());
 
   controladorLedMain = new ControladorLedBuiltIn();
-  //wifi = new Wifi();
+  wifi = new ClienteWiFi();
   //request = new RequestTravis();
 }
 
