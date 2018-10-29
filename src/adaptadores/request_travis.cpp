@@ -22,11 +22,7 @@ EstadoDelBuild RequestTravis::ObtenerEstado()
     token << "token " << token_;
     http.begin(url.str().c_str());
     http.addHeader("Travis-API-Version", "3", false, false);
-<<<<<<< HEAD
-    http.addHeader("Authorization", "token some_token", false, false);
-=======
     http.addHeader("Authorization", token.str().c_str(), false, false);
->>>>>>> af4c3a8... request travis con parametros
     int httpCode = http.GET();
 
     if (httpCode > 0)
