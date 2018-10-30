@@ -19,6 +19,8 @@ public:
 private:
   const char *repositorio_;
   const char *token_;
+  bool QuedarseConResultado(const char **payload);
+  EstadoDelBuild DecidirEstado(const char* nombreDeEstado);
 };
 
 } // namespace adaptadores

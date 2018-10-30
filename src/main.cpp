@@ -23,7 +23,7 @@ ControladorLed *controladorLedMain;
 void setup()
 {
   //servidor_wifi = new ServidorWiFi();
-  request = new RequestTravis("dyasc-2018", "some_token");
+  request = new RequestTravis("some_repo", "some_token");
   Serial.begin(115200);
 
   //Serial.print("Setting AP (Access Point)…");
@@ -39,16 +39,18 @@ void setup()
 
 void loop()
 {
+  EstadoDelBuild estado = kEstadoDesconocido;
   if (wifi->EstaConectado())
   {
     controladorLedMain->PrenderLedRojo();
-    request->ObtenerEstado();
+    estado = request->ObtenerEstado();
   }
   else
   {
     controladorLedMain->ApagarLedRojo();
     wifi->Conectar(ssid, password);
   }
+  
   delay(10000);
   //servidor_wifi->AtenderCliente();
 }
