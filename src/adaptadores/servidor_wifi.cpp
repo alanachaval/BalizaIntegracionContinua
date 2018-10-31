@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include "servidor_wifi.hpp"
+//#include "servidor_wifi_html.hpp"
 #include "controlador_led_built_in.hpp"
 
 using namespace adaptadores;
@@ -47,6 +48,33 @@ void ServidorWiFi::AtenderCliente()
                     // that's the end of the client HTTP request, so send a response:
                     if (currentLine.length() == 0)
                     {
+                        // for (int i = 0; i < top_html_length; i++)
+                        // {
+                        //     client.println(FPSTR(top_html[i]));
+                        // }
+                        // if (header.indexOf("GET /26/on") >= 0)
+                        // {
+                        //     for (int i = 0; i < on_html_length; i++)
+                        //     {
+                        //         client.println(FPSTR(on_html[i]));
+                        //     }
+                        //     builtIn = "on";
+                        //     controladorLed->PrenderLedRojo();
+                        // }
+                        // else if (header.indexOf("GET /26/off") >= 0)
+                        // {
+                        //     for (int i = 0; i < off_html_length; i++)
+                        //     {
+                        //         client.println(FPSTR(off_html[i]));
+                        //     }
+                        //     builtIn = "off";
+                        //     controladorLed->ApagarLedRojo();
+                        // }
+                        // for (int i = 0; i < bottom_html_length; i++)
+                        // {
+                        //     client.println(FPSTR(bottom_html[i]));
+                        // }
+
                         // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
                         // and a content-type so the client knows what's coming, then a blank line:
                         client.println("HTTP/1.1 200 OK");
