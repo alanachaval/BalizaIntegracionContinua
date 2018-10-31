@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include "controlador_led.hpp"
 
-#define LED_ROJO 2
-#define LED_VERDE 3
+#define GROUND 25
+#define LED_ROJO 12
+#define LED_VERDE 27
 
 using namespace adaptadores;
 
@@ -10,6 +11,8 @@ ControladorLed::ControladorLed()
 {
     pinMode(LED_ROJO, OUTPUT);
     pinMode(LED_VERDE, OUTPUT);
+    pinMode(GROUND, OUTPUT);
+    digitalWrite(GROUND, LOW);
 }
 
 void ControladorLed::PrenderLedRojo()

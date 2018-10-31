@@ -7,10 +7,11 @@ namespace adaptadores
 class ControladorLed
 {
 public:
-  virtual void PrenderLedRojo() = 0;
-  virtual void ApagarLedRojo() = 0;
-  virtual void PrenderLedVerde() = 0;
-  virtual void ApagarLedVerde() = 0;
+  ControladorLed();
+  virtual void PrenderLedRojo();
+  virtual void ApagarLedRojo();
+  virtual void PrenderLedVerde();
+  virtual void ApagarLedVerde();
 };
 
 } // namespace adaptadores

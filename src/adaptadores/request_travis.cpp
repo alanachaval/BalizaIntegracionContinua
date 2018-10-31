@@ -11,11 +11,12 @@ RequestTravis::RequestTravis(const char *repositorio, const char *token)
 {
     repositorio_ = repositorio;
     token_ = token;
+    fallos = 0;
+    estado = kEstadoDesconocido;
 }
 
 EstadoDelBuild RequestTravis::ObtenerEstado()
 {
-    EstadoDelBuild estado = kEstadoDesconocido;
     HTTPClient http;
     std::stringstream url;
     std::stringstream token;
@@ -29,18 +30,25 @@ EstadoDelBuild RequestTravis::ObtenerEstado()
     if (httpCode > 0)
     {
         String payload = http.getString();
-        const char* payloadComoChar = payload.c_str();
+        const char *payloadComoChar = payload.c_str();
+        fallos = 0;
         Serial.println(httpCode);
         Serial.println(payload);
-        
-        if (QuedarseConResultado(&payloadComoChar)) {
+
+        if (QuedarseConResultado(&payloadComoChar))
+        {
             estado = DecidirEstado(payloadComoChar);
         }
-        
+
         Serial.println(payloadComoChar);
     }
     else
     {
+        fallos++;
+        if (fallos > 3)
+        {
+            estado = kEstadoDesconocido;
+        }
         Serial.println("Error on HTTP request");
     }
 
@@ -51,14 +59,15 @@ EstadoDelBuild RequestTravis::ObtenerEstado()
 
 bool RequestTravis::QuedarseConResultado(const char **payload)
 {
-    const char* palabraEstado = "state";
-    const char* finDeLineaDeEstado = "\",";
-    char* inicioDeEstado = strstr(*payload, palabraEstado);
+    const char *palabraEstado = "state";
+    const char *finDeLineaDeEstado = "\",";
+    char *inicioDeEstado = strstr(*payload, palabraEstado);
     bool seEncontroPalabra = inicioDeEstado != NULL;
 
-    if (seEncontroPalabra) {
+    if (seEncontroPalabra)
+    {
         inicioDeEstado += 8;
-        char* finDeEstado = strstr(inicioDeEstado, finDeLineaDeEstado);
+        char *finDeEstado = strstr(inicioDeEstado, finDeLineaDeEstado);
         *inicioDeEstado = '\0';
         *finDeEstado = '\0';
         *payload = inicioDeEstado + 1;
@@ -67,15 +76,18 @@ bool RequestTravis::QuedarseConResultado(const char **payload)
     return seEncontroPalabra;
 }
 
-EstadoDelBuild RequestTravis::DecidirEstado(const char* nombreDeEstado) {
+EstadoDelBuild RequestTravis::DecidirEstado(const char *nombreDeEstado)
+{
     EstadoDelBuild resultado = kEstadoDesconocido;
     const char *palabraCorrecto = "passed";
-    const char* palabraIncorrecto = "failed";
+    const char *palabraIncorrecto = "failed";
 
-    if (!strcmp(nombreDeEstado, palabraCorrecto)) {
+    if (!strcmp(nombreDeEstado, palabraCorrecto))
+    {
         resultado = kEstadoCorrecto;
-
-    } else if (!strcmp(nombreDeEstado, palabraIncorrecto)) {
+    }
+    else if (!strcmp(nombreDeEstado, palabraIncorrecto))
+    {
         resultado = kEstadoIncorrecto;
     }
 

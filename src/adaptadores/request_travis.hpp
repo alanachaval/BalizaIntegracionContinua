@@ -19,6 +19,8 @@ public:
 private:
   const char *repositorio_;
   const char *token_;
+  int fallos;
+  EstadoDelBuild estado;
   bool QuedarseConResultado(const char **payload);
   EstadoDelBuild DecidirEstado(const char* nombreDeEstado);
 };

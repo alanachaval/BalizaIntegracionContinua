@@ -30,8 +30,9 @@ class ServidorWiFiHtml
         "<p><a href=\"/26/on\"><button class=\"button\">ON</button></a></p>"};
     const int off_html_length = 1;
     const char *const bottom_html[] PROGMEM = {
-        "</body></html>"};
-    const int bottom_html_length = 1;
+        "</body></html>"
+        ""};
+    const int bottom_html_length = 2;
 };
 
 } // namespace adaptadores
