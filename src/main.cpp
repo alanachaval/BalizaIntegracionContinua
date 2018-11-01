@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
-#include "adaptadores/controlador_led.hpp"
+#include "adaptadores/controlador_led_rojo_verde.hpp"
 #include "adaptadores/servidor_wifi.hpp"
 #include "adaptadores/request_travis.hpp"
 #include "adaptadores/request_travis.hpp"
@@ -27,7 +27,7 @@ int repeticiones = 0;
 void setup()
 {
   Request *request = new RequestTravis("some_repo", "some_token");
-  controladorLedMain = new ControladorLed();
+  controladorLedMain = new ControladorLedRojoVerde();
   visualizador_de_estado = new VisualizadorDeEstado();
   visualizador_de_estado->SetControladorLed(controladorLedMain);
   procesador = new Procesador();
