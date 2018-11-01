@@ -20,8 +20,8 @@ public:
 private:
   ControladorLed *controlador_led_;
   EstadoDelBuild estado_actual_;
-  EstadoDelBuild estado_anterior;
-  int tiempo_de_parpadeos;
+  EstadoDelBuild estado_anterior_;
+  int tiempo_de_parpadeos_;
   static const int kTiempoDeCadaParpadeo = 500;
   static const int kParpadeosDelLed = 5;
 };
