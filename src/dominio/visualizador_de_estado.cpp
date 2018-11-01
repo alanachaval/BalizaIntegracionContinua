@@ -37,13 +37,13 @@ void VisualizadorDeEstado::Actualizar(int milisegundos)
 {
     if (estado_actual_ != estado_anterior)
     {
-        tiempo_de_parpadeos = TIEMPO_DE_CADA_PARPADEO * 2 * PARPADEOS_DEL_LED;
+        tiempo_de_parpadeos = kTiempoDeCadaParpadeo * 2 * kParpadeosDelLed;
         estado_anterior = estado_actual_;
     }
 
     if (tiempo_de_parpadeos > 0)
     {
-        bool led_encendido = tiempo_de_parpadeos % TIEMPO_DE_CADA_PARPADEO * 2 < TIEMPO_DE_CADA_PARPADEO;
+        bool led_encendido = tiempo_de_parpadeos % kTiempoDeCadaParpadeo * 2 < kTiempoDeCadaParpadeo;
 
         switch (estado_actual_)
         {

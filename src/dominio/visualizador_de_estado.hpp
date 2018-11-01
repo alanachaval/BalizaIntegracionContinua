@@ -22,8 +22,8 @@ private:
   EstadoDelBuild estado_actual_;
   EstadoDelBuild estado_anterior;
   int tiempo_de_parpadeos;
-  const int TIEMPO_DE_CADA_PARPADEO = 500;
-  const int PARPADEOS_DEL_LED = 5;
+  static const int kTiempoDeCadaParpadeo = 500;
+  static const int kParpadeosDelLed = 5;
 };
 
 } // namespace dominio
