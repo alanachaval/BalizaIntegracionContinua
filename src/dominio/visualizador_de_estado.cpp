@@ -15,7 +15,7 @@ void VisualizadorDeEstado::SetEstadoDelBuild(EstadoDelBuild estado_actual)
 
     switch (estado_actual_)
     {
-    case kEstadoDesconocido:
+    case kEstadoDesconectado:
         controlador_led_->PrenderLedRojo();
         controlador_led_->PrenderLedVerde();
         break;
@@ -43,11 +43,16 @@ void VisualizadorDeEstado::Actualizar(unsigned long milisegundos)
         //Si se termina el tiempo los deja encendidos, en caso de demoras en otras ejecuciones
         bool led_encendido = tiempo_de_parpadeos_ < milisegundos;
         tiempo_de_parpadeos_ -= milisegundos;
+        if (led_encendido)
+        {
+            tiempo_de_parpadeos_ = 0;
+        }
+
         led_encendido |= tiempo_de_parpadeos_ % kTiempoDeCadaParpadeo * 2UL < kTiempoDeCadaParpadeo;
 
         switch (estado_actual_)
         {
-        case kEstadoDesconocido:
+        case kEstadoDesconectado:
             if (led_encendido)
             {
                 controlador_led_->PrenderLedRojo();

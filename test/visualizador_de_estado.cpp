@@ -8,7 +8,7 @@ using namespace dominio;
 using ::testing::AtLeast;
 using ::testing::Return;
 
-TEST(VisualizadorDeEstado, inicializa_en_estado_desconocido)
+TEST(VisualizadorDeEstado, inicializa_en_estado_desconectado)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLed *mock_controlador_led = new MockControladorLed();
@@ -108,7 +108,7 @@ TEST(VisualizadorDeEstado, titileo_de_led_rojo_al_cambiar_a_estado_incorrecto)
     delete mock_controlador_led;
 }
 
-TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_desconocido)
+TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_desconectado)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLed *mock_controlador_led = new MockControladorLed();
@@ -117,7 +117,7 @@ TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_desco
     visualizador_de_estado->SetControladorLed(mock_controlador_led);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
     visualizador_de_estado->Actualizar(tiempo_de_espera);
-    visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconocido);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconectado);
     visualizador_de_estado->Actualizar(tiempo_de_espera);
 
     for (int i = 0; i < 5; i++)

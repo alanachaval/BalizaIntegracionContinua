@@ -11,7 +11,7 @@ using namespace dominio;
 using ::testing::AtLeast;
 using ::testing::Return;
 
-TEST(Procesador, obtiene_estado_desconocido_y_lo_asigna)
+TEST(Procesador, obtiene_estado_desconectado_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();
     MockRequest *mock_request = new MockRequest();
@@ -22,7 +22,7 @@ TEST(Procesador, obtiene_estado_desconocido_y_lo_asigna)
     procesador->SetRequest(mock_request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
     
-    EXPECT_CALL(*mock_request, ObtenerEstado()).WillOnce(Return(kEstadoDesconocido));
+    EXPECT_CALL(*mock_request, ObtenerEstado()).WillOnce(Return(kEstadoDesconectado));
 
     procesador->ActualizarEstado();
 
@@ -82,3 +82,4 @@ TEST(Procesador, obtiene_estado_incorrecto_y_lo_asigna)
     delete visualizador_de_estado;
     delete mock_controlador_led;
 }
+
