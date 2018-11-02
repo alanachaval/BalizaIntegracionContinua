@@ -1,6 +1,7 @@
 add_executable(
     unit_tests
     procesador.cpp
+    visualizador_de_estado.cpp
     mocks/mock_controlador_led.cpp
     mocks/mock_request.cpp
     )

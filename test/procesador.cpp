@@ -11,41 +11,28 @@ using namespace dominio;
 using ::testing::AtLeast;
 using ::testing::Return;
 
-TEST(VisualizadorDeEstado, inicializa_en_estado_desconocido)
-{
-    VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *controlador_de_led = new MockControladorLed();
-
-    EXPECT_CALL(*controlador_de_led, PrenderLedRojo()).Times(1);
-    EXPECT_CALL(*controlador_de_led, PrenderLedVerde()).Times(1);
-
-    visualizador_de_estado->SetControladorLed(controlador_de_led);
-
-    delete visualizador_de_estado;
-    delete controlador_de_led;
-}
-
 TEST(Procesador, obtiene_estado_desconocido_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();
     MockRequest *request = new MockRequest();
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *controlador_de_led = new MockControladorLed();
+    MockControladorLed *controlador_led = new MockControladorLed();
 
-    visualizador_de_estado->SetControladorLed(controlador_de_led);
+    visualizador_de_estado->SetControladorLed(controlador_led);
     procesador->SetRequest(request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
     
     EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoDesconocido));
-    EXPECT_CALL(*controlador_de_led, PrenderLedRojo()).Times(1);
-    EXPECT_CALL(*controlador_de_led, PrenderLedVerde()).Times(1);
 
     procesador->ActualizarEstado();
+
+    EXPECT_TRUE(controlador_led->LedVerdeEncendido());
+    EXPECT_TRUE(controlador_led->LedRojoEncendido());
 
     delete procesador;
     delete request;
     delete visualizador_de_estado;
-    delete controlador_de_led;
+    delete controlador_led;
 }
 
 TEST(Procesador, obtiene_estado_correcto_y_lo_asigna)
@@ -53,22 +40,23 @@ TEST(Procesador, obtiene_estado_correcto_y_lo_asigna)
     Procesador *procesador = new Procesador();
     MockRequest *request = new MockRequest();
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *controlador_de_led = new MockControladorLed();
+    MockControladorLed *controlador_led = new MockControladorLed();
 
-    visualizador_de_estado->SetControladorLed(controlador_de_led);
+    visualizador_de_estado->SetControladorLed(controlador_led);
     procesador->SetRequest(request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
 
     EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoCorrecto));
-    EXPECT_CALL(*controlador_de_led, PrenderLedVerde()).Times(1);
-    EXPECT_CALL(*controlador_de_led, ApagarLedRojo()).Times(1);
-
+  
     procesador->ActualizarEstado();
+
+    EXPECT_TRUE(controlador_led->LedVerdeEncendido());
+    EXPECT_FALSE(controlador_led->LedRojoEncendido());
 
     delete procesador;
     delete request;
     delete visualizador_de_estado;
-    delete controlador_de_led;
+    delete controlador_led;
 }
 
 TEST(Procesador, obtiene_estado_incorrecto_y_lo_asigna)
@@ -76,20 +64,21 @@ TEST(Procesador, obtiene_estado_incorrecto_y_lo_asigna)
     Procesador *procesador = new Procesador();
     MockRequest *request = new MockRequest();
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *controlador_de_led = new MockControladorLed();
+    MockControladorLed *controlador_led = new MockControladorLed();
 
-    visualizador_de_estado->SetControladorLed(controlador_de_led);
+    visualizador_de_estado->SetControladorLed(controlador_led);
     procesador->SetRequest(request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
 
     EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoIncorrecto));
-    EXPECT_CALL(*controlador_de_led, ApagarLedVerde()).Times(1);
-    EXPECT_CALL(*controlador_de_led, PrenderLedRojo()).Times(1);
-
+    
     procesador->ActualizarEstado();
+
+    EXPECT_TRUE(controlador_led->LedRojoEncendido());
+    EXPECT_FALSE(controlador_led->LedVerdeEncendido());
 
     delete procesador;
     delete request;
     delete visualizador_de_estado;
-    delete controlador_de_led;
+    delete controlador_led;
 }
