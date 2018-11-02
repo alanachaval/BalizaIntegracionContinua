@@ -105,3 +105,34 @@ TEST(VisualizadorDeEstado, titileo_de_led_rojo_al_cambiar_a_estado_incorrecto)
     delete visualizador_de_estado;
     delete controlador_led;
 }
+
+TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_desconocido)
+{
+    VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
+    MockControladorLed *controlador_led = new MockControladorLed();
+
+    visualizador_de_estado->SetControladorLed(controlador_led);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
+    visualizador_de_estado->Actualizar(0);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconocido);
+    visualizador_de_estado->Actualizar(20);
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 25; j++)
+        {
+            visualizador_de_estado->Actualizar(10);
+        }
+        EXPECT_TRUE(controlador_led->LedRojoEncendido());
+        EXPECT_TRUE(controlador_led->LedVerdeEncendido());
+        for (int j = 0; j < 25; j++)
+        {
+            visualizador_de_estado->Actualizar(10);
+        }
+        EXPECT_FALSE(controlador_led->LedRojoEncendido());
+        EXPECT_FALSE(controlador_led->LedVerdeEncendido());
+    }
+
+    delete visualizador_de_estado;
+    delete controlador_led;
+}

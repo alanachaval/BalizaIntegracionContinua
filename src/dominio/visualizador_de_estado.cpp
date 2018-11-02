@@ -27,8 +27,6 @@ void VisualizadorDeEstado::SetEstadoDelBuild(EstadoDelBuild estado_actual)
         controlador_led_->ApagarLedVerde();
         controlador_led_->PrenderLedRojo();
         break;
-    default:
-        break;
     }
 }
 
@@ -46,6 +44,18 @@ void VisualizadorDeEstado::Actualizar(int milisegundos)
 
         switch (estado_actual_)
         {
+        case kEstadoDesconocido:
+            if (led_encendido)
+            {
+                controlador_led_->PrenderLedRojo();
+                controlador_led_->PrenderLedVerde();
+            }
+            else
+            {
+                controlador_led_->ApagarLedRojo();
+                controlador_led_->ApagarLedVerde();
+            }
+            break;
         case kEstadoCorrecto:
             if (led_encendido)
             {
@@ -65,8 +75,6 @@ void VisualizadorDeEstado::Actualizar(int milisegundos)
             {
                 controlador_led_->ApagarLedRojo();
             }
-            break;
-        default:
             break;
         }
         tiempo_de_parpadeos_ -= milisegundos;
