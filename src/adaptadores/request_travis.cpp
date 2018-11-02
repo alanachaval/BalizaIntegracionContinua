@@ -12,7 +12,7 @@ RequestTravis::RequestTravis(const char *repositorio, const char *token)
     repositorio_ = repositorio;
     token_ = token;
     fallos = 0;
-    estado = kEstadoDesconocido;
+    estado = kEstadoDesconectado;
 }
 
 EstadoDelBuild RequestTravis::ObtenerEstado()
@@ -47,7 +47,7 @@ EstadoDelBuild RequestTravis::ObtenerEstado()
         fallos++;
         if (fallos > 3)
         {
-            estado = kEstadoDesconocido;
+            estado = kEstadoDesconectado;
         }
         Serial.println("Error on HTTP request");
     }
@@ -78,7 +78,7 @@ bool RequestTravis::QuedarseConResultado(const char **payload)
 
 EstadoDelBuild RequestTravis::DecidirEstado(const char *nombreDeEstado)
 {
-    EstadoDelBuild resultado = kEstadoDesconocido;
+    EstadoDelBuild resultado = kEstadoDesconectado;
     const char *palabraCorrecto = "passed";
     const char *palabraIncorrecto = "failed";
 
@@ -89,6 +89,10 @@ EstadoDelBuild RequestTravis::DecidirEstado(const char *nombreDeEstado)
     else if (!strcmp(nombreDeEstado, palabraIncorrecto))
     {
         resultado = kEstadoIncorrecto;
+    }
+    else
+    {
+        resultado = kEstadoEjecutando;
     }
 
     return resultado;
