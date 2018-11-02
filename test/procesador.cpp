@@ -14,71 +14,71 @@ using ::testing::Return;
 TEST(Procesador, obtiene_estado_desconocido_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();
-    MockRequest *request = new MockRequest();
+    MockRequest *mock_request = new MockRequest();
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *controlador_led = new MockControladorLed();
+    MockControladorLed *mock_controlador_led = new MockControladorLed();
 
-    visualizador_de_estado->SetControladorLed(controlador_led);
-    procesador->SetRequest(request);
+    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    procesador->SetRequest(mock_request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
     
-    EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoDesconocido));
+    EXPECT_CALL(*mock_request, ObtenerEstado()).WillOnce(Return(kEstadoDesconocido));
 
     procesador->ActualizarEstado();
 
-    EXPECT_TRUE(controlador_led->LedVerdeEncendido());
-    EXPECT_TRUE(controlador_led->LedRojoEncendido());
+    EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
+    EXPECT_TRUE(mock_controlador_led->LedRojoEncendido());
 
     delete procesador;
-    delete request;
+    delete mock_request;
     delete visualizador_de_estado;
-    delete controlador_led;
+    delete mock_controlador_led;
 }
 
 TEST(Procesador, obtiene_estado_correcto_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();
-    MockRequest *request = new MockRequest();
+    MockRequest *mock_request = new MockRequest();
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *controlador_led = new MockControladorLed();
+    MockControladorLed *mock_controlador_led = new MockControladorLed();
 
-    visualizador_de_estado->SetControladorLed(controlador_led);
-    procesador->SetRequest(request);
+    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    procesador->SetRequest(mock_request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
 
-    EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoCorrecto));
+    EXPECT_CALL(*mock_request, ObtenerEstado()).WillOnce(Return(kEstadoCorrecto));
   
     procesador->ActualizarEstado();
 
-    EXPECT_TRUE(controlador_led->LedVerdeEncendido());
-    EXPECT_FALSE(controlador_led->LedRojoEncendido());
+    EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
+    EXPECT_FALSE(mock_controlador_led->LedRojoEncendido());
 
     delete procesador;
-    delete request;
+    delete mock_request;
     delete visualizador_de_estado;
-    delete controlador_led;
+    delete mock_controlador_led;
 }
 
 TEST(Procesador, obtiene_estado_incorrecto_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();
-    MockRequest *request = new MockRequest();
+    MockRequest *mock_request = new MockRequest();
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *controlador_led = new MockControladorLed();
+    MockControladorLed *mock_controlador_led = new MockControladorLed();
 
-    visualizador_de_estado->SetControladorLed(controlador_led);
-    procesador->SetRequest(request);
+    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    procesador->SetRequest(mock_request);
     procesador->SetVisualizadorDeEstado(visualizador_de_estado);
 
-    EXPECT_CALL(*request, ObtenerEstado()).WillOnce(Return(kEstadoIncorrecto));
+    EXPECT_CALL(*mock_request, ObtenerEstado()).WillOnce(Return(kEstadoIncorrecto));
     
     procesador->ActualizarEstado();
 
-    EXPECT_TRUE(controlador_led->LedRojoEncendido());
-    EXPECT_FALSE(controlador_led->LedVerdeEncendido());
+    EXPECT_TRUE(mock_controlador_led->LedRojoEncendido());
+    EXPECT_FALSE(mock_controlador_led->LedVerdeEncendido());
 
     delete procesador;
-    delete request;
+    delete mock_request;
     delete visualizador_de_estado;
-    delete controlador_led;
+    delete mock_controlador_led;
 }
