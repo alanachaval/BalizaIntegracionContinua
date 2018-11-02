@@ -8,7 +8,8 @@ enum EstadoDelBuild
 {
   kEstadoDesconectado = 0,
   kEstadoCorrecto = 1,
-  kEstadoIncorrecto = 2
+  kEstadoIncorrecto = 2,
+  kEstadoEjecutando = 3
 };
 
 } // namespace dominio

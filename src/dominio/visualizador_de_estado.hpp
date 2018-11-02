@@ -22,8 +22,15 @@ private:
   EstadoDelBuild estado_actual_;
   EstadoDelBuild estado_anterior_;
   unsigned long tiempo_de_parpadeos_;
+  unsigned long tiempo_desde_ultimo_cambio_;
+  bool animacion_en_ejecucion_;
+  bool (VisualizadorDeEstado::*actualizar_actual_)(unsigned long);
   static const unsigned long kTiempoDeCadaParpadeo = 500UL;
   static const unsigned long kParpadeosDelLed = 5UL;
+  bool ActualizarEstadoCorrecto(unsigned long milisegundos);
+  bool ActualizarEstadoIncorrecto(unsigned long milisegundos);
+  bool ActualizarEstadoDesconectado(unsigned long milisegundos);
+  bool ActualizarEstadoEjecutando(unsigned long milisegundos);
 };
 
 } // namespace dominio

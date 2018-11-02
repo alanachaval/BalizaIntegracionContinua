@@ -161,3 +161,35 @@ TEST(VisualizadorDeEstado, led_verde_queda_encendido_luego_de_una_espera_mayor_a
     delete visualizador_de_estado;
     delete mock_controlador_led;
 }
+
+TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_ejecutando)
+{
+    VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
+    MockControladorLed *mock_controlador_led = new MockControladorLed();
+    unsigned long tiempo_de_espera = 10UL;
+
+    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconectado);
+    visualizador_de_estado->Actualizar(tiempo_de_espera);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoEjecutando);
+    visualizador_de_estado->Actualizar(tiempo_de_espera);
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 25; j++)
+        {
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
+        }
+        EXPECT_TRUE(mock_controlador_led->LedRojoEncendido());
+        EXPECT_FALSE(mock_controlador_led->LedVerdeEncendido());
+        for (int j = 0; j < 25; j++)
+        {
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
+        }
+        EXPECT_FALSE(mock_controlador_led->LedRojoEncendido());
+        EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
+    }
+
+    delete visualizador_de_estado;
+    delete mock_controlador_led;
+}
