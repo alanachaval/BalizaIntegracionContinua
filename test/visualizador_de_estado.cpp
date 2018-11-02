@@ -56,21 +56,22 @@ TEST(VisualizadorDeEstado, titileo_de_led_verde_al_cambiar_a_estado_correcto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLed *controlador_led = new MockControladorLed();
+    unsigned long tiempo_de_espera = 10UL;
 
     visualizador_de_estado->SetControladorLed(controlador_led);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
-    visualizador_de_estado->Actualizar(20);
+    visualizador_de_estado->Actualizar(tiempo_de_espera);
 
     for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < 25; j++)
         {
-            visualizador_de_estado->Actualizar(10);
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
         EXPECT_TRUE(controlador_led->LedVerdeEncendido());
         for (int j = 0; j < 25; j++)
         {
-            visualizador_de_estado->Actualizar(10);
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
         EXPECT_FALSE(controlador_led->LedVerdeEncendido());
     }
@@ -83,21 +84,22 @@ TEST(VisualizadorDeEstado, titileo_de_led_rojo_al_cambiar_a_estado_incorrecto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLed *controlador_led = new MockControladorLed();
+    unsigned long tiempo_de_espera = 10UL;
 
     visualizador_de_estado->SetControladorLed(controlador_led);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoIncorrecto);
-    visualizador_de_estado->Actualizar(20);
+    visualizador_de_estado->Actualizar(tiempo_de_espera);
 
     for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < 25; j++)
         {
-            visualizador_de_estado->Actualizar(10);
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
         EXPECT_TRUE(controlador_led->LedRojoEncendido());
         for (int j = 0; j < 25; j++)
         {
-            visualizador_de_estado->Actualizar(10);
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
         EXPECT_FALSE(controlador_led->LedRojoEncendido());
     }
@@ -110,28 +112,51 @@ TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_desco
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLed *controlador_led = new MockControladorLed();
+    unsigned long tiempo_de_espera = 10UL;
 
     visualizador_de_estado->SetControladorLed(controlador_led);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
-    visualizador_de_estado->Actualizar(0);
+    visualizador_de_estado->Actualizar(tiempo_de_espera);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconocido);
-    visualizador_de_estado->Actualizar(20);
+    visualizador_de_estado->Actualizar(tiempo_de_espera);
 
     for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < 25; j++)
         {
-            visualizador_de_estado->Actualizar(10);
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
         EXPECT_TRUE(controlador_led->LedRojoEncendido());
         EXPECT_TRUE(controlador_led->LedVerdeEncendido());
         for (int j = 0; j < 25; j++)
         {
-            visualizador_de_estado->Actualizar(10);
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
         EXPECT_FALSE(controlador_led->LedRojoEncendido());
         EXPECT_FALSE(controlador_led->LedVerdeEncendido());
     }
+
+    delete visualizador_de_estado;
+    delete controlador_led;
+}
+
+TEST(VisualizadorDeEstado, led_verde_queda_encendido_luego_de_una_espera_mayor_a_las_repeticiones)
+{
+    VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
+    MockControladorLed *controlador_led = new MockControladorLed();
+
+    visualizador_de_estado->SetControladorLed(controlador_led);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoIncorrecto);
+    visualizador_de_estado->Actualizar(10UL);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
+
+    visualizador_de_estado->Actualizar(200UL);
+
+    EXPECT_FALSE(controlador_led->LedVerdeEncendido());
+
+    visualizador_de_estado->Actualizar(8000000UL);
+
+    EXPECT_TRUE(controlador_led->LedVerdeEncendido());
 
     delete visualizador_de_estado;
     delete controlador_led;

@@ -23,6 +23,7 @@ ClienteWiFi *wifi;
 ControladorLed *controladorLedMain;
 VisualizadorDeEstado *visualizador_de_estado;
 int repeticiones = 0;
+unsigned long milisegundos_ultima_ejecucion = 0UL;
 
 void setup()
 {
@@ -64,7 +65,10 @@ void loop()
   {
     servidor_wifi->AtenderCliente();
   }
-  visualizador_de_estado->Actualizar(100);
+  unsigned long milisegundos = millis();
+  unsigned long milisegundos_repeticion = milisegundos - milisegundos_ultima_ejecucion;
+  milisegundos_ultima_ejecucion = milisegundos;
+  visualizador_de_estado->Actualizar(milisegundos_repeticion);
   delay(100);
   repeticiones++;
 }

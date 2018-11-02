@@ -15,15 +15,15 @@ class VisualizadorDeEstado
 public:
   void SetControladorLed(ControladorLed *controlador_led);
   void SetEstadoDelBuild(EstadoDelBuild estado_del_build);
-  void Actualizar(int milisegundos);
+  void Actualizar(unsigned long milisegundos);
 
 private:
   ControladorLed *controlador_led_;
   EstadoDelBuild estado_actual_;
   EstadoDelBuild estado_anterior_;
-  int tiempo_de_parpadeos_;
-  static const int kTiempoDeCadaParpadeo = 500;
-  static const int kParpadeosDelLed = 5;
+  unsigned long tiempo_de_parpadeos_;
+  static const unsigned long kTiempoDeCadaParpadeo = 500UL;
+  static const unsigned long kParpadeosDelLed = 5UL;
 };
 
 } // namespace dominio

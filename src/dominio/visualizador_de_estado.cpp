@@ -30,17 +30,20 @@ void VisualizadorDeEstado::SetEstadoDelBuild(EstadoDelBuild estado_actual)
     }
 }
 
-void VisualizadorDeEstado::Actualizar(int milisegundos)
+void VisualizadorDeEstado::Actualizar(unsigned long milisegundos)
 {
     if (estado_actual_ != estado_anterior_)
     {
-        tiempo_de_parpadeos_ = kTiempoDeCadaParpadeo * 2 * kParpadeosDelLed;
+        tiempo_de_parpadeos_ = kTiempoDeCadaParpadeo * 2UL * kParpadeosDelLed;
         estado_anterior_ = estado_actual_;
     }
 
     if (tiempo_de_parpadeos_ > 0)
     {
-        bool led_encendido = tiempo_de_parpadeos_ % kTiempoDeCadaParpadeo * 2 < kTiempoDeCadaParpadeo;
+        //Si se termina el tiempo los deja encendidos, en caso de demoras en otras ejecuciones
+        bool led_encendido = tiempo_de_parpadeos_ < milisegundos;
+        tiempo_de_parpadeos_ -= milisegundos;
+        led_encendido |= tiempo_de_parpadeos_ % kTiempoDeCadaParpadeo * 2UL < kTiempoDeCadaParpadeo;
 
         switch (estado_actual_)
         {
@@ -77,6 +80,5 @@ void VisualizadorDeEstado::Actualizar(int milisegundos)
             }
             break;
         }
-        tiempo_de_parpadeos_ -= milisegundos;
     }
 }
