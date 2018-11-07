@@ -19,7 +19,7 @@ const char *cliente_password = "password";
 ServidorWiFi *servidor_wifi;
 
 Procesador *procesador;
-ClienteWiFi *wifi;
+ClienteWiFi *cliente_wifi;
 ControladorLed *controladorLedMain;
 VisualizadorDeEstado *visualizador_de_estado;
 int repeticiones = 0;
@@ -44,20 +44,20 @@ void setup()
   Serial.print("AP IP address: ");
   Serial.println(servidor_wifi->ObtenerIP());
 
-  wifi = new ClienteWiFi();
+  cliente_wifi = new ClienteWiFi();
 }
 
 void loop()
 {
   if (repeticiones == 100)
   {
-    if (wifi->EstaConectado())
+    if (cliente_wifi->EstaConectado())
     {
       procesador->ActualizarEstado();
     }
     else
     {
-      wifi->Conectar(cliente_ssid, cliente_password);
+      cliente_wifi->Conectar(cliente_ssid, cliente_password);
     }
     repeticiones = 0;
   }
