@@ -51,20 +51,32 @@ void ServidorWiFi::AtenderCliente()
                 //Si la linea esta vacia entonces se termino el header
                 if (pedido.length() < 3)
                 {
+                    std::map<std::string, std::string> datos;
+
                     //Si es un post falta leer el payload
                     if (request[0].startsWith("POST"))
                     {
-                        String pedido = client.readStringUntil('\n');
-                        request.push_back(pedido);
-                        Serial.println(pedido.c_str());
+                        pedido = client.readStringUntil('\n');
+                        while (pedido.length() >= 3)
+                        {
+                            request.push_back(pedido);
+                            Serial.println(pedido.c_str());
+                            unsigned separador = pedido.indexOf(':');
+                            std::string clave = pedido.substring(0, separador).c_str();
+                            std::string valor = pedido.substring(separador + 1).c_str();
+                            datos.insert(std::pair<std::string, std::string>(clave, valor));
+                            Serial.println("clave");
+                            Serial.println(clave.c_str());
+                            Serial.println("valor");
+                            Serial.println(valor.c_str());
+                            pedido = client.readStringUntil('\n');
+                        };
                     }
 
                     client.println("HTTP/1.1 200 OK");
                     client.println("Content-type:text/html");
                     client.println("Connection: close");
                     client.println();
-
-                    std::map<std::string, std::string> datos;
 
                     unsigned first = request[0].indexOf(' ');
                     unsigned last = request[0].lastIndexOf(' ');
