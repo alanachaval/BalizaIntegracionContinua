@@ -12,11 +12,11 @@ using namespace adaptadores;
 
 WiFiServer server(80);
 
-ServidorWiFi::ServidorWiFi()
+ServidorWiFi::ServidorWiFi(Procesador *procesador, ClienteWiFi *cliente_wifi)
 {
     manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/", new manejadores::Index()));
-    manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/repositorio", new manejadores::Repositorio()));
-    manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/red", new manejadores::Red()));
+    manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/repositorio", new manejadores::Repositorio(procesador)));
+    manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/red", new manejadores::Red(cliente_wifi)));
 }
 
 void ServidorWiFi::Iniciar(const char *ssid, const char *password)

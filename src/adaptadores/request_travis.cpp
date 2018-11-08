@@ -57,6 +57,8 @@ EstadoDelBuild RequestTravis::ObtenerEstado()
     return estado;
 }
 
+RequestTravis::~RequestTravis() {}
+
 bool RequestTravis::QuedarseConResultado(const char **payload)
 {
     const char *palabraEstado = "state";

@@ -15,6 +15,7 @@ class RequestTravis : public Request
 public:
   RequestTravis(const char *repositorio, const char *token);
   virtual EstadoDelBuild ObtenerEstado();
+  ~RequestTravis();
 
 private:
   const char *repositorio_;
@@ -22,7 +23,7 @@ private:
   int fallos;
   EstadoDelBuild estado;
   bool QuedarseConResultado(const char **payload);
-  EstadoDelBuild DecidirEstado(const char* nombreDeEstado);
+  EstadoDelBuild DecidirEstado(const char *nombreDeEstado);
 };
 
 } // namespace adaptadores

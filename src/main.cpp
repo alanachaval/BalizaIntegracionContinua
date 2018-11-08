@@ -34,7 +34,8 @@ void setup()
   procesador = new Procesador();
   procesador->SetRequest(request);
   procesador->SetVisualizadorDeEstado(visualizador_de_estado);
-  servidor_wifi = new ServidorWiFi();
+  cliente_wifi = new ClienteWiFi();
+  servidor_wifi = new ServidorWiFi(procesador, cliente_wifi);
   Serial.begin(115200);
   delay(10000);
 
@@ -43,8 +44,6 @@ void setup()
 
   Serial.print("AP IP address: ");
   Serial.println(servidor_wifi->ObtenerIP());
-
-  cliente_wifi = new ClienteWiFi();
 }
 
 void loop()
@@ -57,7 +56,7 @@ void loop()
     }
     else
     {
-      cliente_wifi->Conectar(cliente_ssid, cliente_password);
+      //cliente_wifi->Conectar(cliente_ssid, cliente_password);
     }
     repeticiones = 0;
   }

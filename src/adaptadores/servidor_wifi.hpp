@@ -1,8 +1,10 @@
 #ifndef BALIZAINTEGRACIONCONTINUA_ADAPTADORES_SERVIDOR_WIFI_H_
 #define BALIZAINTEGRACIONCONTINUA_ADAPTADORES_SERVIDOR_WIFI_H_
 
-#include "../dominio/estado_del_build.hpp"
 #include "../manejadores/manejador.hpp"
+#include "cliente_wifi.hpp"
+#include "../dominio/estado_del_build.hpp"
+#include "../dominio/procesador.hpp"
 #include <map>
 
 namespace adaptadores
@@ -11,7 +13,7 @@ namespace adaptadores
 class ServidorWiFi
 {
 public:
-  ServidorWiFi();
+  ServidorWiFi(Procesador *procesador, ClienteWiFi *cliente_wifi);
   virtual void Iniciar(const char *ssid, const char *password);
   virtual const char *ObtenerIP();
   virtual void AtenderCliente();

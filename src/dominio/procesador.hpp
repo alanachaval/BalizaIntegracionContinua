@@ -12,7 +12,7 @@ using namespace dominio;
 class Procesador
 {
 public:
-  Procesador::Procesador();
+  Procesador();
   void SetRequest(Request *request);
   void SetVisualizadorDeEstado(VisualizadorDeEstado *visualizador_de_estado);
   void ActualizarEstado();

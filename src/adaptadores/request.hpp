@@ -12,6 +12,7 @@ class Request
 {
 public:
   virtual EstadoDelBuild ObtenerEstado() = 0;
+  virtual ~Request(){};
 };
 
 } // namespace adaptadores
