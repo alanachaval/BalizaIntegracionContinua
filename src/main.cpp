@@ -13,11 +13,7 @@ using namespace adaptadores;
 const char *servidor_ssid = "ESP32-Access-Point";
 const char *servidor_password = "123456789";
 
-const char *cliente_ssid = "ssid";
-const char *cliente_password = "password";
-
 ServidorWiFi *servidor_wifi;
-
 Procesador *procesador;
 ClienteWiFi *cliente_wifi;
 ControladorLed *controladorLedMain;
@@ -48,7 +44,11 @@ void setup()
 
 void loop()
 {
-  if (repeticiones == 100)
+  if (repeticiones % 10 == 0)
+  {
+    servidor_wifi->AtenderCliente();
+  }
+  if (repeticiones == 10)
   {
     if (cliente_wifi->EstaConectado())
     {
@@ -56,13 +56,9 @@ void loop()
     }
     else
     {
-      //cliente_wifi->Conectar(cliente_ssid, cliente_password);
+      cliente_wifi->Reconectar();
     }
     repeticiones = 0;
-  }
-  if (repeticiones % 10 == 0)
-  {
-    servidor_wifi->AtenderCliente();
   }
   unsigned long milisegundos = millis();
   unsigned long milisegundos_repeticion = milisegundos - milisegundos_ultima_ejecucion;

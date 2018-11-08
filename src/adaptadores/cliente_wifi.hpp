@@ -2,6 +2,7 @@
 #define BALIZAINTEGRACIONCONTINUA_ADAPTADORES_CLIENTE_WIFI_H_
 
 #include "../dominio/estado_del_build.hpp"
+#include <string>
 
 namespace adaptadores
 {
@@ -9,8 +10,15 @@ namespace adaptadores
 class ClienteWiFi
 {
 public:
-  virtual bool Conectar(const char *ssid, const char *password);
+  ClienteWiFi();
+  virtual bool Conectar(std::string ssid, std::string password);
   virtual bool EstaConectado();
+  virtual bool Reconectar();
+
+private:
+  std::string ssid_;
+  std::string password_;
+  int intentos_;
 };
 
 } // namespace adaptadores

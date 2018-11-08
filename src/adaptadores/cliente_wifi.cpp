@@ -4,31 +4,45 @@
 
 using namespace adaptadores;
 
-bool ClienteWiFi::Conectar(const char *ssid, const char *password)
+ClienteWiFi::ClienteWiFi()
 {
-    int intentos = 0;
-    WiFi.begin(ssid, password);
+    intentos_ = 0;
+}
 
-    while (!this->EstaConectado() && intentos > 0)
-    {
-        delay(1000);
-        intentos--;
-        Serial.println("Connecting to WiFi..");
-    }
-
-    if (this->EstaConectado())
-    {
-        Serial.println("Connected to the WiFi network");
-    }
-    else
-    {
-        Serial.println("Not connected!");
-    }
-
-    return this->EstaConectado();
+bool ClienteWiFi::Conectar(std::string ssid, std::string password)
+{
+    ssid_ = ssid;
+    password_ = password;
+    intentos_ = 0;
+    WiFi.disconnect();
+    return this->Reconectar();
 }
 
 bool ClienteWiFi::EstaConectado()
 {
     return WiFi.status() == WL_CONNECTED;
+}
+
+bool ClienteWiFi::Reconectar()
+{
+    if (this->EstaConectado())
+    {
+        return true;
+    }
+
+    if (ssid_.length() < 3) //Evita iniciar el wifi con una red invalida
+    {
+        return false;
+    }
+
+    if (intentos_-- < 0)
+    {
+        Serial.print("ssid: ");
+        Serial.println(ssid_.c_str());
+        Serial.print("password: ");
+        Serial.println(password_.c_str());
+        WiFi.begin(ssid_.c_str(), password_.c_str());
+        intentos_ = 15;
+    }
+    return false;
 }

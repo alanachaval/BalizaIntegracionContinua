@@ -31,9 +31,19 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
     xmlHttp.open(\"POST\", url, true);\r\n\
     xmlHttp.send(payload);\r\n\
    }\r\n\
+   function actualizar()\r\n\
+   {\r\n\
+    httpPostAsync(\"/estado\", \"\", function(response)\r\n\
+    {\r\n\
+     window.alert(response);\r\n\
+    });\r\n\
+   }\r\n\
    function setWifi()\r\n\
    {\r\n\
-    httpPostAsync(\"/\", \"\", function(response)\r\n\
+    red_wifi = document.getElementById(\"red_wifi\").value;\r\n\
+    clave_red_wifi = document.getElementById(\"clave_red_wifi\").value;\r\n\
+    payload = \"red_wifi:\" + red_wifi + \"\\n\" + \"clave_red_wifi:\" + clave_red_wifi;\r\n\
+    httpPostAsync(\"/red\", payload, function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
      document.getElementById(\"red_modificada\").style.visibility = \"visible\";\r\n\
@@ -43,9 +53,7 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
    {\r\n\
     repositorio = document.getElementById(\"repositorio\").value;\r\n\
     token = document.getElementById(\"token\").value;\r\n\
-    //payload = \"repositorio=\" + repositorio + \"&token=\" + token;\r\n\
-    payload = \"repositorio:\" + repositorio + \"\\r\n\" + \"token:\" + token;\r\n\
-    //window.alert(payload);\r\n\
+    payload = \"repositorio:\" + repositorio + \"\\n\" + \"token:\" + token;\r\n\
     httpPostAsync(\"/repositorio\", payload, function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
@@ -61,10 +69,35 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
   <table border=\"2\">\r\n\
    <tr>\r\n\
     <td>\r\n\
+     Estado Conexion:\r\n\
+    </td>\r\n\
+    <td>\r\n\
+     <input id=\"estado_conexion\" type=\"text\" name=\"estado_conexion\">\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+   <tr>\r\n\
+    <td>\r\n\
+     Estado Integracion Continua:\r\n\
+    </td>\r\n\
+    <td>\r\n\
+     <input id=\"estado_integracion_continua\" type=\"text\" name=\"estado_integracion_continua\">\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+   <tr>\r\n\
+    <td colspan=\"2\">\r\n\
+     <button onClick=\"actualizar();\">\r\n\
+      Actualizar\r\n\
+     </button>\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+  </table>\r\n\
+  <table border=\"2\">\r\n\
+   <tr>\r\n\
+    <td>\r\n\
      Red WiFi:\r\n\
     </td>\r\n\
     <td>\r\n\
-     <input type=\"text\" name=\"red_wifi\">\r\n\
+     <input id=\"red_wifi\" type=\"text\" name=\"red_wifi\">\r\n\
     </td>\r\n\
    </tr>\r\n\
    <tr>\r\n\
@@ -72,7 +105,7 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
      Clave red WiFi:\r\n\
     </td>\r\n\
     <td>\r\n\
-     <input type=\"text\" name=\"clave_red_wifi\">\r\n\
+     <input id=\"clave_red_wifi\" type=\"text\" name=\"clave_red_wifi\">\r\n\
     </td>\r\n\
    </tr>\r\n\
    <tr>\r\n\

@@ -15,11 +15,13 @@ public:
   Procesador();
   void SetRequest(Request *request);
   void SetVisualizadorDeEstado(VisualizadorDeEstado *visualizador_de_estado);
+  EstadoDelBuild GetEstado();
   void ActualizarEstado();
 
 private:
   Request *request_;
   VisualizadorDeEstado *visualizador_de_estado_;
+  EstadoDelBuild estado_del_build_;
 };
 
 } // namespace dominio

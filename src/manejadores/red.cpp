@@ -1,5 +1,6 @@
 #include "red.hpp"
 #include "../adaptadores/cliente_wifi.hpp"
+#include <Arduino.h>
 
 using namespace manejadores;
 
@@ -10,5 +11,8 @@ Red::Red(ClienteWiFi *cliente_wifi)
 
 std::string Red::Responder(std::map<std::string, std::string> datos)
 {
-    return "";
+    const char *ssid = datos.find("red_wifi")->second.c_str();
+    const char *password = datos.find("clave_red_wifi")->second.c_str();
+    cliente_wifi_->Conectar(ssid, password);
+    return "OK";
 }

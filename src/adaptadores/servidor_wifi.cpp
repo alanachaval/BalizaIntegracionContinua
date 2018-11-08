@@ -7,6 +7,7 @@
 #include "../manejadores/index.hpp"
 #include "../manejadores/repositorio.hpp"
 #include "../manejadores/red.hpp"
+#include "../manejadores/estado.hpp"
 
 using namespace adaptadores;
 
@@ -17,6 +18,7 @@ ServidorWiFi::ServidorWiFi(Procesador *procesador, ClienteWiFi *cliente_wifi)
     manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/", new manejadores::Index()));
     manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/repositorio", new manejadores::Repositorio(procesador)));
     manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/red", new manejadores::Red(cliente_wifi)));
+    manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/estado", new manejadores::Estado(procesador, cliente_wifi)));
 }
 
 void ServidorWiFi::Iniciar(const char *ssid, const char *password)
