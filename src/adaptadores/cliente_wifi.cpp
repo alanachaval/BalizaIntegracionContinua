@@ -6,7 +6,7 @@ using namespace adaptadores;
 
 bool ClienteWiFi::Conectar(const char *ssid, const char *password)
 {
-    int intentos = 0; 
+    int intentos = 0;
     WiFi.begin(ssid, password);
 
     while (!this->EstaConectado() && intentos > 0)

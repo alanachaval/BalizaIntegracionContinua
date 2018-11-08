@@ -10,12 +10,12 @@ using namespace adaptadores;
 
 class ControladorLedBuiltIn : public ControladorLed
 {
-  public:
-    ControladorLedBuiltIn();
-    virtual void PrenderLedRojo();
-    virtual void ApagarLedRojo();
-    virtual void PrenderLedVerde();
-    virtual void ApagarLedVerde();
+public:
+  ControladorLedBuiltIn();
+  virtual void PrenderLedRojo();
+  virtual void ApagarLedRojo();
+  virtual void PrenderLedVerde();
+  virtual void ApagarLedVerde();
 };
 
 } // namespace adaptadores

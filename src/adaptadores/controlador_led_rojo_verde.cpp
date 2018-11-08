@@ -27,12 +27,14 @@ void ControladorLedRojoVerde::ApagarLedRojo()
     Serial.println("LED Rojo apagado");
 }
 
-void ControladorLedRojoVerde::PrenderLedVerde() {
+void ControladorLedRojoVerde::PrenderLedVerde()
+{
     digitalWrite(LED_VERDE, HIGH);
     Serial.println("LED Verde prendido");
 }
 
-void ControladorLedRojoVerde::ApagarLedVerde() {
+void ControladorLedRojoVerde::ApagarLedVerde()
+{
     digitalWrite(LED_VERDE, LOW);
     Serial.println("LED Verde apagado");
 }
