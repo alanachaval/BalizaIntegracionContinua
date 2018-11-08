@@ -1,6 +1,5 @@
 #include "red.hpp"
 #include "../adaptadores/cliente_wifi.hpp"
-#include <Arduino.h>
 
 using namespace manejadores;
 
