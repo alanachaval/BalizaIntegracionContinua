@@ -91,6 +91,7 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
     </td>\r\n\
    </tr>\r\n\
   </table>\r\n\
+  <br/>\r\n\
   <table border=\"2\">\r\n\
    <tr>\r\n\
     <td>\r\n\

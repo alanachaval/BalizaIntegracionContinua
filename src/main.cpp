@@ -2,8 +2,6 @@
 #include <WiFi.h>
 #include "adaptadores/controlador_led_rojo_verde.hpp"
 #include "adaptadores/servidor_wifi.hpp"
-#include "adaptadores/request_travis.hpp"
-#include "adaptadores/request_travis.hpp"
 #include "adaptadores/cliente_wifi.hpp"
 #include "dominio/procesador.hpp"
 #include "dominio/visualizador_de_estado.hpp"
@@ -23,12 +21,10 @@ unsigned long milisegundos_ultima_ejecucion = 0UL;
 
 void setup()
 {
-  Request *request = new RequestTravis("some_repo", "some_token");
   controladorLedMain = new ControladorLedRojoVerde();
   visualizador_de_estado = new VisualizadorDeEstado();
   visualizador_de_estado->SetControladorLed(controladorLedMain);
   procesador = new Procesador();
-  procesador->SetRequest(request);
   procesador->SetVisualizadorDeEstado(visualizador_de_estado);
   cliente_wifi = new ClienteWiFi();
   servidor_wifi = new ServidorWiFi(procesador, cliente_wifi);
@@ -48,7 +44,7 @@ void loop()
   {
     servidor_wifi->AtenderCliente();
   }
-  if (repeticiones == 10)
+  if (repeticiones == 50)
   {
     if (cliente_wifi->EstaConectado())
     {
