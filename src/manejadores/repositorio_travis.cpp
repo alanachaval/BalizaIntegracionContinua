@@ -1,14 +1,14 @@
-#include "repositorio.hpp"
+#include "repositorio_travis.hpp"
 #include "../adaptadores/request_travis.hpp"
 
 using namespace manejadores;
 
-Repositorio::Repositorio(Procesador *procesador)
+RepositorioTravis::RepositorioTravis(Procesador *procesador)
 {
     procesador_ = procesador;
 }
 
-std::string Repositorio::Responder(std::map<std::string, std::string> datos)
+std::string RepositorioTravis::Responder(std::map<std::string, std::string> datos)
 {
     const char *repositorio = datos.find("repositorio")->second.c_str();
     const char *token = datos.find("token")->second.c_str();

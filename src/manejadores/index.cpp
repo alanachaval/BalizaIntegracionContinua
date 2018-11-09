@@ -45,25 +45,46 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
    {\r\n\
     red_wifi = document.getElementById(\"red_wifi\").value;\r\n\
     clave_red_wifi = document.getElementById(\"clave_red_wifi\").value;\r\n\
-    payload = \"red_wifi:\" + red_wifi + \"\\n\" + \"clave_red_wifi:\" + clave_red_wifi;\r\n\
+    payload = \"red_wifi:\" + red_wifi + \"\\nclave_red_wifi:\" + clave_red_wifi;\r\n\
     httpPostAsync(\"/red\", payload, function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
      document.getElementById(\"red_modificada\").style.visibility = \"visible\";\r\n\
     });\r\n\
    }\r\n\
-   function setRepositorio()\r\n\
+   function setRepositorioTravis()\r\n\
    {\r\n\
-    repositorio = document.getElementById(\"repositorio\").value;\r\n\
-    token = document.getElementById(\"token\").value;\r\n\
-    payload = \"repositorio:\" + repositorio + \"\\n\" + \"token:\" + token;\r\n\
-    httpPostAsync(\"/repositorio\", payload, function(response)\r\n\
+    repositorio = document.getElementById(\"repositorio_travis\").value;\r\n\
+    token = document.getElementById(\"token_travis\").value;\r\n\
+    payload = \"repositorio:\" + repositorio + \"\\ntoken:\" + token;\r\n\
+    httpPostAsync(\"/repositorio_travis\", payload, function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
-     document.getElementById(\"repositorio_modificado\").style.visibility = \"visible\";\r\n\
+     document.getElementById(\"repositorio_modificado_travis\").style.visibility = \"visible\";\r\n\
     });\r\n\
    }\r\n\
-  </script>\r\n\
+   function setRepositorioJenkins()\r\n\
+   {\r\n\
+    url = document.getElementById(\"url_jenkins\").value;\r\n\
+    repositorio = document.getElementById(\"repositorio_jenkins\").value;\r\n\
+    usuario = document.getElementById(\"usuario_jenkins\").value;\r\n\
+    token = document.getElementById(\"token_jenkins\").value;\r\n\
+    payload = \"url:\" + url + \"\\nrepositorio:\" + repositorio + \"\\nusuario:\" + usuario + \"\\ntoken:\" + token;\r\n\
+    httpPostAsync(\"/repositorio_jenkins\", payload, function(response)\r\n\
+    {\r\n\
+     window.alert(response);\r\n\
+     document.getElementById(\"repositorio_modificado_jenkins\").style.visibility = \"visible\";\r\n\
+    });\r\n\
+   }\r\n\
+   function showTravis(){\r\n\
+       document.getElementById('tabla_travis').style.display = 'table';\r\n\
+       document.getElementById('tabla_jenkins').style.display = 'none';\r\n\
+   }\r\n\
+   function showJenkins(){\r\n\
+       document.getElementById('tabla_jenkins').style.display = 'table';\r\n\
+       document.getElementById('tabla_travis').style.display = 'none';\r\n\
+   }\r\n\
+ </script>\r\n\
  </head>\r\n\
  <body>\r\n\
   <h1>\r\n\
@@ -124,13 +145,25 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
    </tr>\r\n\
   </table>\r\n\
   <br/>\r\n\
-  <table border=\"2\">\r\n\
+  <table border=\"1\">\r\n\
+   <tr>\r\n\
+    <td>\r\n\
+     <button onClick=\"showTravis();\">\r\n\
+      Travis\r\n\
+     </button>\r\n\
+     <button onClick=\"showJenkins();\">\r\n\
+      Jenkins\r\n\
+     </button>\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+  </table>\r\n\
+  <table id=\"tabla_travis\" border=\"2\">\r\n\
    <tr>\r\n\
     <td>\r\n\
      Repositorio:\r\n\
     </td>\r\n\
     <td>\r\n\
-     <input id=\"repositorio\" type=\"text\" name=\"repositorio\">\r\n\
+     <input id=\"repositorio_travis\" type=\"text\" name=\"repositorio_travis\">\r\n\
     </td>\r\n\
    </tr>\r\n\
    <tr>\r\n\
@@ -138,17 +171,63 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
      Token:\r\n\
     </td>\r\n\
     <td>\r\n\
-     <input id=\"token\" type=\"text\" name=\"token\">\r\n\
+     <input id=\"token_travis\" type=\"text\" name=\"token_travis\">\r\n\
     </td>\r\n\
    </tr>\r\n\
    <tr>\r\n\
-    <td id=\"repositorio_modificado\" style=\"visibility:hidden\" colspan=\"2\">\r\n\
+    <td id=\"repositorio_modificado_travis\" style=\"visibility:hidden\" colspan=\"2\">\r\n\
      Repositorio Modificado\r\n\
     </td>\r\n\
    </tr>\r\n\
    <tr>\r\n\
     <td colspan=\"2\">\r\n\
-     <button onClick=\"setRepositorio();\">\r\n\
+     <button onClick=\"setRepositorioTravis();\">\r\n\
+      Aceptar\r\n\
+     </button>\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+  </table>\r\n\
+  <table id=\"tabla_jenkins\" border=\"2\" style=\"display:none\">\r\n\
+   <tr>\r\n\
+    <td>\r\n\
+     URL (con puerto):\r\n\
+    </td>\r\n\
+    <td>\r\n\
+     <input id=\"url_jenkins\" type=\"text\" name=\"url_jenkins\">\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+   <tr>\r\n\
+    <td>\r\n\
+     Repositorio:\r\n\
+    </td>\r\n\
+    <td>\r\n\
+     <input id=\"repositorio_jenkins\" type=\"text\" name=\"repositorio_jenkins\">\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+   <tr>\r\n\
+    <td>\r\n\
+     Usuario:\r\n\
+    </td>\r\n\
+    <td>\r\n\
+     <input id=\"usuario_jenkins\" type=\"text\" name=\"usuario_jenkins\">\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+   <tr>\r\n\
+    <td>\r\n\
+     Token:\r\n\
+    </td>\r\n\
+    <td>\r\n\
+     <input id=\"token_jenkins\" type=\"text\" name=\"token_jenkins\">\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+   <tr>\r\n\
+    <td id=\"repositorio_modificado_jenkins\" style=\"visibility:hidden\" colspan=\"2\">\r\n\
+     Repositorio Modificado\r\n\
+    </td>\r\n\
+   </tr>\r\n\
+   <tr>\r\n\
+    <td colspan=\"2\">\r\n\
+     <button onClick=\"setRepositorioJenkins();\">\r\n\
       Aceptar\r\n\
      </button>\r\n\
     </td>\r\n\

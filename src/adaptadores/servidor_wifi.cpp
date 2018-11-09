@@ -5,7 +5,8 @@
 #include "servidor_wifi.hpp"
 #include "../manejadores/manejador.hpp"
 #include "../manejadores/index.hpp"
-#include "../manejadores/repositorio.hpp"
+#include "../manejadores/repositorio_travis.hpp"
+#include "../manejadores/repositorio_jenkins.hpp"
 #include "../manejadores/red.hpp"
 #include "../manejadores/estado.hpp"
 
@@ -16,7 +17,8 @@ WiFiServer server(80);
 ServidorWiFi::ServidorWiFi(Procesador *procesador, ClienteWiFi *cliente_wifi)
 {
     manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/", new manejadores::Index()));
-    manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/repositorio", new manejadores::Repositorio(procesador)));
+    manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/repositorio_travis", new manejadores::RepositorioTravis(procesador)));
+    manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/repositorio_jenkins", new manejadores::RepositorioJenkins(procesador)));
     manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/red", new manejadores::Red(cliente_wifi)));
     manejadores_.insert(std::pair<std::string, manejadores::Manejador *>("/estado", new manejadores::Estado(procesador, cliente_wifi)));
 }

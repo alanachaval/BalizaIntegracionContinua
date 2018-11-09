@@ -1,5 +1,5 @@
-#ifndef BALIZAINTEGRACIONCONTINUA_MANEJADORES_REPOSITORIO_H_
-#define BALIZAINTEGRACIONCONTINUA_MANEJADORES_REPOSITORIO_H_
+#ifndef BALIZAINTEGRACIONCONTINUA_MANEJADORES_REPOSITORIO_JENKINS_H_
+#define BALIZAINTEGRACIONCONTINUA_MANEJADORES_REPOSITORIO_JENKINS_H_
 
 #include <string>
 #include <map>
@@ -11,10 +11,10 @@ namespace manejadores
 
 using namespace dominio;
 
-class Repositorio : public Manejador
+class RepositorioJenkins : public Manejador
 {
 public:
-  Repositorio(Procesador *procesador);
+  RepositorioJenkins(Procesador *procesador);
   virtual std::string Responder(std::map<std::string, std::string> datos);
 
 private:
@@ -23,4 +23,4 @@ private:
 
 } // namespace manejadores
 
-#endif // BALIZAINTEGRACIONCONTINUA_MANEJADORES_REPOSITORIO_H_
+#endif // BALIZAINTEGRACIONCONTINUA_MANEJADORES_REPOSITORIO_JENKINS_H_
