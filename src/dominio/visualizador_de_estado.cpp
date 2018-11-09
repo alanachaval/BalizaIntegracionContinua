@@ -38,14 +38,14 @@ void VisualizadorDeEstado::SetEstadoDelBuild(EstadoDelBuild estado_actual)
         tiempo_de_parpadeos_ = kTiempoDeCadaParpadeo * 2UL * kParpadeosDelLed;
         estado_anterior_ = estado_actual_;
     }
-    animacion_en_ejecucion_ = (this->*((dominio::VisualizadorDeEstado *)this)->dominio::VisualizadorDeEstado::actualizar_actual_)(0UL);
+    animacion_en_ejecucion_ = (this->*actualizar_actual_)(0UL);
 }
 
 void VisualizadorDeEstado::Actualizar(unsigned long milisegundos)
 {
     if (animacion_en_ejecucion_)
     {
-        (this->*((dominio::VisualizadorDeEstado *)this)->dominio::VisualizadorDeEstado::actualizar_actual_)(milisegundos);
+        (this->*actualizar_actual_)(milisegundos);
     }
 
     tiempo_desde_ultimo_cambio_ += milisegundos;
