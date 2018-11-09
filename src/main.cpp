@@ -36,6 +36,8 @@ void setup()
 
   Serial.print("AP IP address: ");
   Serial.println(servidor_wifi->ObtenerIP());
+
+  milisegundos_ultima_ejecucion = millis();
 }
 
 void loop()

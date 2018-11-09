@@ -7,6 +7,8 @@ void VisualizadorDeEstado::SetControladorLed(ControladorLed *controlador_led)
     controlador_led_ = controlador_led;
     controlador_led_->PrenderLedRojo();
     controlador_led_->PrenderLedVerde();
+    estado_anterior_ = kEstadoEjecutando;
+    SetEstadoDelBuild(kEstadoDesconectado);
 }
 
 void VisualizadorDeEstado::SetEstadoDelBuild(EstadoDelBuild estado_actual)
