@@ -36,6 +36,9 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
     httpPostAsync(\"/estado\", \"\", function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
+     datos = response.split(/\\r?\\n/g);\r\n\
+     document.getElementById(\"estado_conexion\").innerHTML = datos[0].split(\": \")[1];\r\n\
+     document.getElementById(\"estado_integracion_continua\").innerHTML = datos[1].split(\": \")[1];\r\n\
     });\r\n\
    }\r\n\
    function setWifi()\r\n\
@@ -71,16 +74,14 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
     <td>\r\n\
      Estado Conexion:\r\n\
     </td>\r\n\
-    <td>\r\n\
-     <input id=\"estado_conexion\" type=\"text\" name=\"estado_conexion\">\r\n\
+    <td id=\"estado_conexion\">\r\n\
     </td>\r\n\
    </tr>\r\n\
    <tr>\r\n\
     <td>\r\n\
      Estado Integracion Continua:\r\n\
     </td>\r\n\
-    <td>\r\n\
-     <input id=\"estado_integracion_continua\" type=\"text\" name=\"estado_integracion_continua\">\r\n\
+    <td id=\"estado_integracion_continua\">\r\n\
     </td>\r\n\
    </tr>\r\n\
    <tr>\r\n\
