@@ -30,7 +30,7 @@ bool ClienteWiFi::Reconectar()
         return true;
     }
 
-    if (ssid_.length() < 3) //Evita iniciar el wifi con una red invalida
+    if (ssid_.length() < 2) //Evita iniciar el wifi con una red invalida
     {
         return false;
     }

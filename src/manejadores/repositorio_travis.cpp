@@ -16,3 +16,13 @@ std::string RepositorioTravis::Responder(std::map<std::string, std::string> dato
     procesador_->SetRequest(request_travis);
     return "OK";
 }
+
+/*std::string RepositorioTravis::ObtenerDatos() {
+    return "{"
+        "\"nombre\": \"travis\""
+        "\"campos\": ["
+            "\"repositorio\","
+            "\"token\""
+        "]"
+    "}";
+}*/

@@ -18,3 +18,15 @@ std::string RepositorioJenkins::Responder(std::map<std::string, std::string> dat
     procesador_->SetRequest(request_jenkins);
     return "OK";
 }
+
+/*std::string RepositorioJenkins::ObtenerDatos() {
+    return "{"
+        "\"nombre\": \"jenkins\""
+        "\"campos\": ["
+            "\"url\","
+            "\"repositorio\","
+            "\"usuario\","
+            "\"token\""
+        "]"
+    "}";
+}*/
