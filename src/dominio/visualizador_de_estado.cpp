@@ -2,11 +2,11 @@
 
 using namespace dominio;
 
-void VisualizadorDeEstado::SetControladorLed(ControladorLed *controlador_led)
+void VisualizadorDeEstado::SetControladorLuz(ControladorLuz *controlador_luz)
 {
-    controlador_led_ = controlador_led;
-    controlador_led_->PrenderLedRojo();
-    controlador_led_->PrenderLedVerde();
+    controlador_luz_ = controlador_luz;
+    controlador_luz_->PrenderLuzRoja();
+    controlador_luz_->PrenderLuzVerde();
     estado_anterior_ = kEstadoEjecutando;
     SetEstadoDelBuild(kEstadoDesconectado);
 }
@@ -14,8 +14,8 @@ void VisualizadorDeEstado::SetControladorLed(ControladorLed *controlador_led)
 void VisualizadorDeEstado::SetEstadoDelBuild(EstadoDelBuild estado_actual)
 {
     estado_actual_ = estado_actual;
-    controlador_led_->ApagarLedRojo();
-    controlador_led_->ApagarLedVerde();
+    controlador_luz_->ApagarLuzRoja();
+    controlador_luz_->ApagarLuzVerde();
 
     switch (estado_actual_)
     {
@@ -35,7 +35,7 @@ void VisualizadorDeEstado::SetEstadoDelBuild(EstadoDelBuild estado_actual)
 
     if (estado_actual_ != estado_anterior_)
     {
-        tiempo_de_parpadeos_ = kTiempoDeCadaParpadeo * 2UL * kParpadeosDelLed;
+        tiempo_de_parpadeos_ = kTiempoDeCadaParpadeo * 2UL * kParpadeosDeLuz;
         estado_anterior_ = estado_actual_;
     }
     animacion_en_ejecucion_ = (this->*actualizar_actual_)(0UL);
@@ -64,11 +64,11 @@ bool VisualizadorDeEstado::ActualizarEstadoCorrecto(unsigned long milisegundos)
     led_encendido |= tiempo_de_parpadeos_ % kTiempoDeCadaParpadeo * 2UL < kTiempoDeCadaParpadeo;
     if (led_encendido)
     {
-        controlador_led_->PrenderLedVerde();
+        controlador_luz_->PrenderLuzVerde();
     }
     else
     {
-        controlador_led_->ApagarLedVerde();
+        controlador_luz_->ApagarLuzVerde();
     }
     return seguir_actualizando;
 }
@@ -86,11 +86,11 @@ bool VisualizadorDeEstado::ActualizarEstadoIncorrecto(unsigned long milisegundos
     led_encendido |= tiempo_de_parpadeos_ % kTiempoDeCadaParpadeo * 2UL < kTiempoDeCadaParpadeo;
     if (led_encendido)
     {
-        controlador_led_->PrenderLedRojo();
+        controlador_luz_->PrenderLuzRoja();
     }
     else
     {
-        controlador_led_->ApagarLedRojo();
+        controlador_luz_->ApagarLuzRoja();
     }
     return seguir_actualizando;
 }
@@ -108,13 +108,13 @@ bool VisualizadorDeEstado::ActualizarEstadoDesconectado(unsigned long milisegund
     led_encendido |= tiempo_de_parpadeos_ % kTiempoDeCadaParpadeo * 2UL < kTiempoDeCadaParpadeo;
     if (led_encendido)
     {
-        controlador_led_->PrenderLedRojo();
-        controlador_led_->PrenderLedVerde();
+        controlador_luz_->PrenderLuzRoja();
+        controlador_luz_->PrenderLuzVerde();
     }
     else
     {
-        controlador_led_->ApagarLedRojo();
-        controlador_led_->ApagarLedVerde();
+        controlador_luz_->ApagarLuzRoja();
+        controlador_luz_->ApagarLuzVerde();
     }
     return seguir_actualizando;
 }
@@ -126,13 +126,13 @@ bool VisualizadorDeEstado::ActualizarEstadoEjecutando(unsigned long milisegundos
     led_encendido |= tiempo_de_parpadeos_ % kTiempoDeCadaParpadeo * 2UL < kTiempoDeCadaParpadeo;
     if (led_encendido)
     {
-        controlador_led_->PrenderLedRojo();
-        controlador_led_->ApagarLedVerde();
+        controlador_luz_->PrenderLuzRoja();
+        controlador_luz_->ApagarLuzVerde();
     }
     else
     {
-        controlador_led_->PrenderLedVerde();
-        controlador_led_->ApagarLedRojo();
+        controlador_luz_->PrenderLuzVerde();
+        controlador_luz_->ApagarLuzRoja();
     }
     return true;
 }
