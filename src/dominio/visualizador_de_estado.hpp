@@ -16,6 +16,8 @@ public:
   void SetControladorLuz(ControladorLuz *controlador_luz);
   void SetEstadoDelBuild(EstadoDelBuild estado_del_build);
   void Actualizar(unsigned long milisegundos);
+  static const unsigned long kTiempoDeCadaParpadeo = 500UL;
+  static const unsigned long kParpadeosDeLuz = 5UL;
 
 private:
   ControladorLuz *controlador_luz_;
@@ -24,13 +26,11 @@ private:
   unsigned long tiempo_de_parpadeos_;
   unsigned long tiempo_desde_ultimo_cambio_;
   bool animacion_en_ejecucion_;
-  bool (VisualizadorDeEstado::*actualizar_actual_)(unsigned long);
-  static const unsigned long kTiempoDeCadaParpadeo = 500UL;
-  static const unsigned long kParpadeosDeLuz = 5UL;
-  bool ActualizarEstadoCorrecto(unsigned long milisegundos);
-  bool ActualizarEstadoIncorrecto(unsigned long milisegundos);
-  bool ActualizarEstadoDesconectado(unsigned long milisegundos);
-  bool ActualizarEstadoEjecutando(unsigned long milisegundos);
+  void (VisualizadorDeEstado::*actualizar_actual_)(bool);
+  void ActualizarEstadoCorrecto(bool led_encendido);
+  void ActualizarEstadoIncorrecto(bool led_encendido);
+  void ActualizarEstadoDesconectado(bool led_encendido);
+  void ActualizarEstadoEjecutando(bool led_encendido);
 };
 
 } // namespace dominio
