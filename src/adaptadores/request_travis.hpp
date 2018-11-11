@@ -13,13 +13,13 @@ using namespace adaptadores;
 class RequestTravis : public Request
 {
 public:
-  RequestTravis(const char *repositorio, const char *token);
+  RequestTravis(std::string repositorio, std::string token);
   virtual EstadoDelBuild ObtenerEstado();
   ~RequestTravis();
 
 private:
-  const char *repositorio_;
-  const char *token_;
+  std::string repositorio_;
+  std::string token_;
   int fallos;
   EstadoDelBuild estado;
   bool QuedarseConResultado(const char **payload);

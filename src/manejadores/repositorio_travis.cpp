@@ -10,8 +10,8 @@ RepositorioTravis::RepositorioTravis(Procesador *procesador)
 
 std::string RepositorioTravis::Responder(std::map<std::string, std::string> datos)
 {
-    const char *repositorio = datos.find("repositorio")->second.c_str();
-    const char *token = datos.find("token")->second.c_str();
+    std::string repositorio = datos.find("repositorio")->second;
+    std::string token = datos.find("token")->second;
     RequestTravis *request_travis = new RequestTravis(repositorio, token);
     procesador_->SetRequest(request_travis);
     return "OK";

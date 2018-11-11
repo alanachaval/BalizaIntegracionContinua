@@ -10,10 +10,10 @@ RepositorioJenkins::RepositorioJenkins(Procesador *procesador)
 
 std::string RepositorioJenkins::Responder(std::map<std::string, std::string> datos)
 {
-    const char *url = datos.find("url")->second.c_str();
-    const char *repositorio = datos.find("repositorio")->second.c_str();
-    const char *usuario = datos.find("usuario")->second.c_str();
-    const char *token = datos.find("token")->second.c_str();
+    std::string url = datos.find("url")->second;
+    std::string repositorio = datos.find("repositorio")->second;
+    std::string usuario = datos.find("usuario")->second;
+    std::string token = datos.find("token")->second;
     RequestJenkins *request_jenkins = new RequestJenkins(url, repositorio, usuario, token);
     procesador_->SetRequest(request_jenkins);
     return "OK";
