@@ -57,7 +57,6 @@ TEST(VisualizadorDeEstado, titileo_de_led_verde_al_cambiar_a_estado_correcto)
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
     unsigned long tiempo_de_espera = 10UL;
-
     visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
     visualizador_de_estado->Actualizar(tiempo_de_espera);
@@ -85,7 +84,6 @@ TEST(VisualizadorDeEstado, titileo_de_led_rojo_al_cambiar_a_estado_incorrecto)
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
     unsigned long tiempo_de_espera = 10UL;
-
     visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoIncorrecto);
     visualizador_de_estado->Actualizar(tiempo_de_espera);
@@ -113,7 +111,6 @@ TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_desco
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
     unsigned long tiempo_de_espera = 10UL;
-
     visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
     visualizador_de_estado->Actualizar(tiempo_de_espera);
@@ -144,14 +141,11 @@ TEST(VisualizadorDeEstado, led_verde_queda_encendido_luego_de_una_espera_mayor_a
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
-
     visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoIncorrecto);
     visualizador_de_estado->Actualizar(10UL);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
-
     visualizador_de_estado->Actualizar(200UL);
-
     EXPECT_FALSE(mock_controlador_luz->LuzVerdeEncendida());
 
     visualizador_de_estado->Actualizar(8000000UL);
@@ -167,7 +161,6 @@ TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_ejecu
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
     MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
     unsigned long tiempo_de_espera = 10UL;
-
     visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconectado);
     visualizador_de_estado->Actualizar(tiempo_de_espera);
