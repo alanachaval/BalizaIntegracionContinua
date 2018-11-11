@@ -2,7 +2,7 @@
 
 using namespace manejadores;
 
-std::string Index::Responder(std::map<std::string, std::string> datos)
+std::string Index::Responder(std::map<std::string, std::string> *datos)
 {
     return "\
 <!DOCTYPE html>\r\n\
@@ -12,11 +12,6 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
   <title>Configuracion Baliza</title>\r\n\
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\r\n\
   <link rel=\"icon\" href=\"data:,\"/>\r\n\
-  <style>\r\n\
-   html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center; }\r\n\
-   .button { background-color: #4CAF50; border: none; color: white; padding: 16px 40px; text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer; }\r\n\
-   .button2 { background-color: #555555; }\r\n\
-  </style>\r\n\
   <script>\r\n\
    function httpPostAsync(url, payload, callback)\r\n\
    {\r\n\

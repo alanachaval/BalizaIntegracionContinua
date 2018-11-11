@@ -36,76 +36,98 @@ const char *ServidorWiFi::ObtenerIP()
 
 void ServidorWiFi::AtenderCliente()
 {
-    WiFiClient client = server.available(); // Listen for incoming clients
+    // Se utilizan los parametros por referencia para evitar copias de std::string
+    // std::string copia el valor en cada asignacion
+    // http://www.cplusplus.com/reference/string/string/string/
 
-    std::vector<String> request;
+    WiFiClient cliente = server.available();
+    std::vector<std::string> request;
+    std::map<std::string, std::string> datos;
+    bool es_post = false;
+    int fin_header = 0;
 
-    if (client)
-    { // If a new client connects,
-        client.setTimeout(1);
-        Serial.println("New Client."); // print a message out in the serial port
-        String currentLine = "";       // make a String to hold incoming data from the client
-        while (client.connected())
-        { // loop while the client's connected
-            if (client.available())
-            { // if there's bytes to read from the client,
-                String pedido = client.readStringUntil('\n');
-                request.push_back(pedido);
-                Serial.println(pedido.c_str());
-                //Si la linea esta vacia entonces se termino el header
-                if (pedido.compareTo("\n") == 0)
+    if (cliente)
+    {
+        Serial.println("Cliente conectado.");
+        LeerRequest(&cliente, &request, &fin_header, &es_post);
+        if (es_post)
+        {
+            AnalizarPayload(fin_header, &request, &datos);
+        }
+        if (cliente.connected() && fin_header > 0)
+        {
+            EnviarRespuesta(&cliente, &request, &datos);
+        }
+        cliente.stop();
+        Serial.println("Cliente disconectado.\n");
+    }
+}
+
+void ServidorWiFi::LeerRequest(WiFiClient *cliente, std::vector<std::string> *request, int *fin_header, bool *es_post)
+{
+    bool continuar_leyendo = true;
+    while (cliente->connected() && continuar_leyendo)
+    {
+        if (cliente->available())
+        {
+            String pedido = cliente->readStringUntil('\n');
+            request->push_back(pedido.c_str());
+            Serial.println(pedido.c_str());
+            //Si la linea esta vacia entonces se termino el header o el payload
+            if (pedido.length() < 3)
+            {
+                continuar_leyendo = (*fin_header) == 0;
+                if (continuar_leyendo)
                 {
-                    std::map<std::string, std::string> datos;
-
-                    //Si es un post falta leer el payload
-                    if (request[0].startsWith("POST"))
-                    {
-                        pedido = client.readStringUntil('\n');
-                        while (pedido.compareTo("\n") != 0)
-                        {
-                            request.push_back(pedido);
-                            Serial.println(pedido.c_str());
-                            unsigned separador = pedido.indexOf(':');
-                            std::string clave = pedido.substring(0, separador).c_str();
-                            std::string valor = pedido.substring(separador + 1).c_str();
-                            datos.insert(std::pair<std::string, std::string>(clave, valor));
-                            Serial.println("clave");
-                            Serial.println(clave.c_str());
-                            Serial.println("valor");
-                            Serial.println(valor.c_str());
-                            pedido = client.readStringUntil('\n');
-                        };
-                    }
-
-                    client.println("HTTP/1.1 200 OK");
-                    client.println("Content-type:text/html");
-                    client.println("Connection: close");
-                    client.println();
-
-                    unsigned first = request[0].indexOf(' ');
-                    unsigned last = request[0].lastIndexOf(' ');
-                    std::string url = request[0].substring(first + 1, last).c_str();
-                    Serial.println(url.c_str());
-
-                    std::map<std::string, manejadores::Manejador *>::iterator par = manejadores_.find(url);
-
-                    if (par == manejadores_.end()) //Esto indica que la clave no esta en el diccionario
-                    {
-                        client.println("ERROR 404");
-                    }
-                    else
-                    {
-                        manejadores::Manejador *manejador = par->second;
-                        client.println(manejador->Responder(datos).c_str());
-                    }
-                    client.println();
-                    break;
+                    *fin_header = request->size();
+                    // Luego de la primer linea vacia si es post siguie leyendo
+                    *es_post = (*fin_header) > 0 && memcmp(request->at(0).c_str(), "POST", 4);
+                    continuar_leyendo = es_post;
                 }
             }
         }
-        // Close the connection
-        client.stop();
-        Serial.println("Client disconnected.");
-        Serial.println("");
     }
+}
+
+void ServidorWiFi::AnalizarPayload(int fin_header, std::vector<std::string> *request, std::map<std::string, std::string> *datos)
+{
+    for (int i = fin_header + 1; i < request->size(); i++)
+    {
+        std::string *linea = &(request->at(i));
+        size_t separador = linea->find(':');
+        std::string clave = linea->substr(0, separador);
+        Serial.print("clave:");
+        Serial.println(clave.c_str());
+        std::string valor = linea->substr(separador + 1, linea->length() - separador - 1);
+        Serial.print("valor");
+        Serial.println(valor.c_str());
+        datos->insert(std::pair<std::string, std::string>(clave, valor));
+    }
+}
+
+void ServidorWiFi::EnviarRespuesta(WiFiClient *cliente, std::vector<std::string> *request, std::map<std::string, std::string> *datos)
+{
+    (*cliente).println("HTTP/1.1 200 OK");
+    (*cliente).println("Content-type:text/html");
+    (*cliente).println("Connection: close");
+    (*cliente).println();
+
+    std::string *primera_linea = &(request->at(0));
+    size_t first = primera_linea->find(' ');
+    size_t last = primera_linea->find(' ', first + 1);
+    std::string url = primera_linea->substr(first + 1, last - first);
+    Serial.println(url.c_str());
+
+    std::map<std::string, manejadores::Manejador *>::iterator par = manejadores_.find(url);
+
+    if (par == manejadores_.end()) //Esto indica que la clave no esta en el diccionario
+    {
+        (*cliente).println("ERROR 404");
+    }
+    else
+    {
+        manejadores::Manejador *manejador = par->second;
+        (*cliente).println(manejador->Responder(datos).c_str());
+    }
+    (*cliente).println();
 }

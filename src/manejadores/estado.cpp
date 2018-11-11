@@ -13,7 +13,7 @@ Estado::Estado(dominio::Procesador *procesador, adaptadores::ClienteWiFi *client
     cliente_wifi_ = cliente_wifi;
 }
 
-std::string Estado::Responder(std::map<std::string, std::string> datos)
+std::string Estado::Responder(std::map<std::string, std::string> *datos)
 {
     const char *estado_conexion;
     if (cliente_wifi_->EstaConectado())

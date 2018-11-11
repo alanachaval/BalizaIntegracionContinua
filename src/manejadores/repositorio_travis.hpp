@@ -15,7 +15,7 @@ class RepositorioTravis : public Manejador
 {
 public:
   RepositorioTravis(Procesador *procesador);
-  virtual std::string Responder(std::map<std::string, std::string> datos);
+  virtual std::string Responder(std::map<std::string, std::string> *datos);
 
 private:
   Procesador *procesador_;
