@@ -53,7 +53,7 @@ void ServidorWiFi::AtenderCliente()
                 request.push_back(pedido);
                 Serial.println(pedido.c_str());
                 //Si la linea esta vacia entonces se termino el header
-                if (pedido.length() < 3)
+                if (pedido.compareTo("\n") == 0)
                 {
                     std::map<std::string, std::string> datos;
 
@@ -61,7 +61,7 @@ void ServidorWiFi::AtenderCliente()
                     if (request[0].startsWith("POST"))
                     {
                         pedido = client.readStringUntil('\n');
-                        while (pedido.length() >= 3)
+                        while (pedido.compareTo("\n") != 0)
                         {
                             request.push_back(pedido);
                             Serial.println(pedido.c_str());
