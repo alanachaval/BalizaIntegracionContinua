@@ -16,7 +16,7 @@ std::string Red::Responder(std::map<std::string, std::string> *datos)
         return "Error : sin parametro red_wifi";
     }
     std::map<std::string, std::string>::iterator password = datos->find("clave_red_wifi");
-    if (ssid == datos->end())
+    if (password == datos->end())
     {
         return "Error : sin parametro clave_red_wifi";
     }

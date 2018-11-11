@@ -91,7 +91,7 @@ void ServidorWiFi::LeerRequest(WiFiClient *cliente, std::vector<std::string> *re
 
 void ServidorWiFi::AnalizarPayload(int fin_header, std::vector<std::string> *request, std::map<std::string, std::string> *datos)
 {
-    for (int i = fin_header + 1; i < request->size(); i++)
+    for (int i = fin_header; i < request->size(); i++)
     {
         std::string *linea = &(request->at(i));
         size_t separador = linea->find(':');
@@ -115,7 +115,7 @@ void ServidorWiFi::EnviarRespuesta(WiFiClient *cliente, std::vector<std::string>
     std::string *primera_linea = &(request->at(0));
     size_t first = primera_linea->find(' ');
     size_t last = primera_linea->find(' ', first + 1);
-    std::string url = primera_linea->substr(first + 1, last - first);
+    std::string url = primera_linea->substr(first + 1, last - first - 1);
     Serial.println(url.c_str());
 
     std::map<std::string, manejadores::Manejador *>::iterator par = manejadores_.find(url);
