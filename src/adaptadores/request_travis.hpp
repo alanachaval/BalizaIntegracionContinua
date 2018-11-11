@@ -3,6 +3,7 @@
 
 #include "../dominio/estado_del_build.hpp"
 #include "request.hpp"
+#include <string>
 
 namespace adaptadores
 {
