@@ -45,6 +45,7 @@ void ServidorWiFi::AtenderCliente()
     std::map<std::string, std::string> datos;
     bool es_post = false;
     int fin_header = 0;
+    cliente.setTimeout(1);
 
     if (cliente)
     {
@@ -65,25 +66,32 @@ void ServidorWiFi::AtenderCliente()
 
 void ServidorWiFi::LeerRequest(WiFiClient *cliente, std::vector<std::string> *request, int *fin_header, bool *es_post)
 {
+    cliente->setTimeout(1);
     bool continuar_leyendo = true;
+    Serial.print("Header Inicial: ");
+    Serial.println(*fin_header);
     while (cliente->connected() && continuar_leyendo)
     {
         if (cliente->available())
         {
             String pedido = cliente->readStringUntil('\n');
+            pedido.replace("\r", "");
             request->push_back(pedido.c_str());
+            Serial.print("Pedido: ");
             Serial.println(pedido.c_str());
             //Si la linea esta vacia entonces se termino el header o el payload
             if (pedido.length() < 3)
             {
-                continuar_leyendo = (*fin_header) == 0;
+                continuar_leyendo = *fin_header == 0;
                 if (continuar_leyendo)
                 {
                     *fin_header = request->size();
                     // Luego de la primer linea vacia si es post siguie leyendo
-                    *es_post = (*fin_header) > 0 && memcmp(request->at(0).c_str(), "POST", 4);
-                    continuar_leyendo = es_post;
+                    *es_post = (*fin_header) > 0 && (memcmp(request->at(0).c_str(), "POST", 4) == 0);
+                    continuar_leyendo = *es_post;
                 }
+                Serial.print("Header: ");
+                Serial.println(*fin_header);
             }
         }
     }
