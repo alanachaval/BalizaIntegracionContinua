@@ -11,6 +11,7 @@ using namespace dominio;
 using ::testing::AtLeast;
 using ::testing::Return;
 
+//Requerimiento - 1 Actualizar estado de la baliza
 TEST(Procesador, obtiene_estado_desconectado_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();
@@ -34,6 +35,7 @@ TEST(Procesador, obtiene_estado_desconectado_y_lo_asigna)
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 1 Actualizar estado de la baliza
 TEST(Procesador, obtiene_estado_correcto_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();
@@ -57,6 +59,7 @@ TEST(Procesador, obtiene_estado_correcto_y_lo_asigna)
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 1 Actualizar estado de la baliza
 TEST(Procesador, obtiene_estado_incorrecto_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();
@@ -80,6 +83,7 @@ TEST(Procesador, obtiene_estado_incorrecto_y_lo_asigna)
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 1 Actualizar estado de la baliza
 TEST(Procesador, obtiene_estado_ejecutando_y_lo_asigna)
 {
     Procesador *procesador = new Procesador();

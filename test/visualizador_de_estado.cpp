@@ -8,6 +8,7 @@ using namespace dominio;
 using ::testing::AtLeast;
 using ::testing::Return;
 
+//Requerimiento - 2 Color asociado a estado
 TEST(VisualizadorDeEstado, inicializa_en_estado_desconectado)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -23,6 +24,7 @@ TEST(VisualizadorDeEstado, inicializa_en_estado_desconectado)
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 2 Color asociado a estado
 TEST(VisualizadorDeEstado, encender_luz_verde_al_cambiar_a_estado_correcto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -39,6 +41,7 @@ TEST(VisualizadorDeEstado, encender_luz_verde_al_cambiar_a_estado_correcto)
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 2 Color asociado a estado
 TEST(VisualizadorDeEstado, encender_luz_rojo_al_cambiar_a_estado_incorrecto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -55,6 +58,7 @@ TEST(VisualizadorDeEstado, encender_luz_rojo_al_cambiar_a_estado_incorrecto)
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 3 Aviso de cambio de estado
 TEST(VisualizadorDeEstado, titileo_de_luz_verde_al_cambiar_a_estado_correcto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -82,6 +86,7 @@ TEST(VisualizadorDeEstado, titileo_de_luz_verde_al_cambiar_a_estado_correcto)
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 3 Aviso de cambio de estado
 TEST(VisualizadorDeEstado, titileo_de_luz_roja_al_cambiar_a_estado_incorrecto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -109,6 +114,7 @@ TEST(VisualizadorDeEstado, titileo_de_luz_roja_al_cambiar_a_estado_incorrecto)
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 5 Aviso de desconexión
 TEST(VisualizadorDeEstado, titileo_de_luz_amarilla_al_cambiar_a_estado_desconectado)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -137,6 +143,7 @@ TEST(VisualizadorDeEstado, titileo_de_luz_amarilla_al_cambiar_a_estado_desconect
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 3 Aviso de cambio de estado
 TEST(VisualizadorDeEstado, luz_verde_queda_encendida_luego_de_una_espera_menor_al_parpadeo)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -153,6 +160,7 @@ TEST(VisualizadorDeEstado, luz_verde_queda_encendida_luego_de_una_espera_menor_a
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 3 Aviso de cambio de estado
 TEST(VisualizadorDeEstado, luz_verde_queda_encendida_luego_de_una_espera_mayor_a_todas_las_repeticiones)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -169,6 +177,7 @@ TEST(VisualizadorDeEstado, luz_verde_queda_encendida_luego_de_una_espera_mayor_a
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 3 Aviso de cambio de estado
 TEST(VisualizadorDeEstado, titileo_de_luz_amarilla_manteniendo_la_verde_encendida_al_cambiar_a_estado_ejecutando_desde_estado_correcto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
@@ -200,6 +209,7 @@ TEST(VisualizadorDeEstado, titileo_de_luz_amarilla_manteniendo_la_verde_encendid
     delete mock_controlador_luz;
 }
 
+//Requerimiento - 3 Aviso de cambio de estado
 TEST(VisualizadorDeEstado, titileo_de_luz_amarilla_manteniendo_la_roja_encendida_al_cambiar_a_estado_ejecutando_desde_estado_incorrecto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
