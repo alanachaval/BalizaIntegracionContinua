@@ -45,10 +45,10 @@ void ServidorWiFi::AtenderCliente()
     std::map<std::string, std::string> datos;
     bool es_post = false;
     int fin_header = 0;
-    cliente.setTimeout(1);
 
     if (cliente)
     {
+        cliente.setTimeout(1000);
         Serial.println("Cliente conectado.");
         LeerRequest(&cliente, &request, &fin_header, &es_post);
         if (es_post)
@@ -66,21 +66,19 @@ void ServidorWiFi::AtenderCliente()
 
 void ServidorWiFi::LeerRequest(WiFiClient *cliente, std::vector<std::string> *request, int *fin_header, bool *es_post)
 {
-    cliente->setTimeout(1);
     bool continuar_leyendo = true;
-    Serial.print("Header Inicial: ");
-    Serial.println(*fin_header);
-    while (cliente->connected() && continuar_leyendo)
+    int timeout = 10;
+    Serial.println("<Inicio Request>");
+    while (cliente->connected() && continuar_leyendo && timeout > 0)
     {
         if (cliente->available())
         {
             String pedido = cliente->readStringUntil('\n');
             pedido.replace("\r", "");
             request->push_back(pedido.c_str());
-            Serial.print("Pedido: ");
             Serial.println(pedido.c_str());
             //Si la linea esta vacia entonces se termino el header o el payload
-            if (pedido.length() < 3)
+            if (pedido.length() == 0)
             {
                 continuar_leyendo = *fin_header == 0;
                 if (continuar_leyendo)
@@ -90,35 +88,44 @@ void ServidorWiFi::LeerRequest(WiFiClient *cliente, std::vector<std::string> *re
                     *es_post = (*fin_header) > 0 && (memcmp(request->at(0).c_str(), "POST", 4) == 0);
                     continuar_leyendo = *es_post;
                 }
-                Serial.print("Header: ");
-                Serial.println(*fin_header);
             }
+            timeout = 10;
+        }
+        else
+        {
+            Serial.println("timeout--");
+            timeout--;
+            delay(100);
         }
     }
+    Serial.println("<Fin Request>");
 }
 
 void ServidorWiFi::AnalizarPayload(int fin_header, std::vector<std::string> *request, std::map<std::string, std::string> *datos)
 {
-    for (int i = fin_header; i < request->size(); i++)
+    for (int i = fin_header; i < request->size() - 1; i++)
     {
         std::string *linea = &(request->at(i));
         size_t separador = linea->find(':');
         std::string clave = linea->substr(0, separador);
-        Serial.print("clave:");
-        Serial.println(clave.c_str());
         std::string valor = linea->substr(separador + 1, linea->length() - separador - 1);
-        Serial.print("valor");
-        Serial.println(valor.c_str());
         datos->insert(std::pair<std::string, std::string>(clave, valor));
+        //Debug
+        Serial.print("\"");
+        Serial.print(clave.c_str());
+        Serial.print("\":");
+        Serial.print("\"");
+        Serial.print(valor.c_str());
+        Serial.println("\"");
     }
 }
 
 void ServidorWiFi::EnviarRespuesta(WiFiClient *cliente, std::vector<std::string> *request, std::map<std::string, std::string> *datos)
 {
-    (*cliente).println("HTTP/1.1 200 OK");
-    (*cliente).println("Content-type:text/html");
-    (*cliente).println("Connection: close");
-    (*cliente).println();
+    cliente->println("HTTP/1.1 200 OK");
+    cliente->println("Content-type:text/html");
+    cliente->println("Connection: close");
+    cliente->println();
 
     std::string *primera_linea = &(request->at(0));
     size_t first = primera_linea->find(' ');
@@ -130,12 +137,12 @@ void ServidorWiFi::EnviarRespuesta(WiFiClient *cliente, std::vector<std::string>
 
     if (par == manejadores_.end()) //Esto indica que la clave no esta en el diccionario
     {
-        (*cliente).println("ERROR 404");
+        cliente->println("ERROR 404");
     }
     else
     {
         manejadores::Manejador *manejador = par->second;
-        (*cliente).println(manejador->Responder(datos).c_str());
+        cliente->println(manejador->Responder(datos).c_str());
     }
-    (*cliente).println();
+    cliente->println();
 }

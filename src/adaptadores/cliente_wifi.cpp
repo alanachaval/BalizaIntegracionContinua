@@ -6,6 +6,8 @@ using namespace adaptadores;
 
 ClienteWiFi::ClienteWiFi()
 {
+    ssid_ = "";
+    password_ = "";
     intentos_ = 0;
 }
 
@@ -30,7 +32,7 @@ bool ClienteWiFi::Reconectar()
         return true;
     }
 
-    if (ssid_.length() < 2) //Evita iniciar el wifi con una red invalida
+    if (ssid_.length() == 0) //Evita iniciar el wifi antes de ser configurado
     {
         return false;
     }
