@@ -8,13 +8,29 @@ RepositorioJenkins::RepositorioJenkins(Procesador *procesador)
     procesador_ = procesador;
 }
 
-std::string RepositorioJenkins::Responder(std::map<std::string, std::string> datos)
+std::string RepositorioJenkins::Responder(std::map<std::string, std::string> *datos)
 {
-    const char *url = datos.find("url")->second.c_str();
-    const char *repositorio = datos.find("repositorio")->second.c_str();
-    const char *usuario = datos.find("usuario")->second.c_str();
-    const char *token = datos.find("token")->second.c_str();
-    RequestJenkins *request_jenkins = new RequestJenkins(url, repositorio, usuario, token);
+    std::map<std::string, std::string>::iterator url = datos->find("url");
+    if (url == datos->end())
+    {
+        return "Error : sin parametro url";
+    }
+    std::map<std::string, std::string>::iterator repositorio = datos->find("repositorio");
+    if (repositorio == datos->end())
+    {
+        return "Error : sin parametro repositorio";
+    }
+    std::map<std::string, std::string>::iterator usuario = datos->find("usuario");
+    if (usuario == datos->end())
+    {
+        return "Error : sin parametro usuario";
+    }
+    std::map<std::string, std::string>::iterator token = datos->find("token");
+    if (token == datos->end())
+    {
+        return "Error : sin parametro token";
+    }
+    RequestJenkins *request_jenkins = new RequestJenkins(url->second, repositorio->second, usuario->second, token->second);
     procesador_->SetRequest(request_jenkins);
     return "OK";
 }

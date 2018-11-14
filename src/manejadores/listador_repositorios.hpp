@@ -11,7 +11,7 @@ namespace manejadores
 class ListadorRepositorios : public Manejador
 {
 public:
-  virtual std::string Responder(std::map<std::string, std::string> datos);
+  virtual std::string Responder(std::map<std::string, std::string> *datos);
 };
 
 } // namespace manejadores

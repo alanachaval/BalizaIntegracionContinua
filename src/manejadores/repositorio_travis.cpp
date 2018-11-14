@@ -8,11 +8,19 @@ RepositorioTravis::RepositorioTravis(Procesador *procesador)
     procesador_ = procesador;
 }
 
-std::string RepositorioTravis::Responder(std::map<std::string, std::string> datos)
+std::string RepositorioTravis::Responder(std::map<std::string, std::string> *datos)
 {
-    const char *repositorio = datos.find("repositorio")->second.c_str();
-    const char *token = datos.find("token")->second.c_str();
-    RequestTravis *request_travis = new RequestTravis(repositorio, token);
+    std::map<std::string, std::string>::iterator repositorio = datos->find("repositorio");
+    if (repositorio == datos->end())
+    {
+        return "Error : sin parametro repositorio";
+    }
+    std::map<std::string, std::string>::iterator token = datos->find("token");
+    if (token == datos->end())
+    {
+        return "Error : sin parametro token";
+    }
+    RequestTravis *request_travis = new RequestTravis(repositorio->second, token->second);
     procesador_->SetRequest(request_travis);
     return "OK";
 }

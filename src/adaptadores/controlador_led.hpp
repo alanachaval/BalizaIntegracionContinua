@@ -1,16 +1,23 @@
 #ifndef BALIZAINTEGRACIONCONTINUA_ADAPTADORES_CONTROLADOR_LED_H_
 #define BALIZAINTEGRACIONCONTINUA_ADAPTADORES_CONTROLADOR_LED_H_
 
+#include "controlador_luz.hpp"
+
 namespace adaptadores
 {
 
-class ControladorLed
+using namespace adaptadores;
+
+class ControladorLed : public ControladorLuz
 {
 public:
-  virtual void PrenderLedRojo() = 0;
-  virtual void ApagarLedRojo() = 0;
-  virtual void PrenderLedVerde() = 0;
-  virtual void ApagarLedVerde() = 0;
+  ControladorLed();
+  virtual void PrenderLuzRoja();
+  virtual void ApagarLuzRoja();
+  virtual void PrenderLuzVerde();
+  virtual void ApagarLuzVerde();
+  virtual void PrenderLuzAmarilla();
+  virtual void ApagarLuzAmarilla();
 };
 
 } // namespace adaptadores

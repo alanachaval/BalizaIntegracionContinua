@@ -6,7 +6,7 @@ target_sources(
         dominio/procesador.cpp
         dominio/visualizador_de_estado.cpp
     PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/adaptadores/controlador_led.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/adaptadores/controlador_luz.hpp
         ${CMAKE_CURRENT_LIST_DIR}/adaptadores/request.hpp
         ${CMAKE_CURRENT_LIST_DIR}/dominio/estado_del_build.hpp
         ${CMAKE_CURRENT_LIST_DIR}/dominio/procesador.hpp

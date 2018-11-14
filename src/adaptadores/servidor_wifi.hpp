@@ -5,6 +5,7 @@
 #include "cliente_wifi.hpp"
 #include "../dominio/estado_del_build.hpp"
 #include "../dominio/procesador.hpp"
+#include <vector>
 #include <map>
 
 namespace adaptadores
@@ -19,6 +20,9 @@ public:
   virtual void AtenderCliente();
 
 private:
+  void LeerRequest(WiFiClient *cliente, std::vector<std::string> *request, int *fin_header, bool *es_post);
+  void AnalizarPayload(int fin_header, std::vector<std::string> *request, std::map<std::string, std::string> *datos);
+  void EnviarRespuesta(WiFiClient *cliente, std::vector<std::string> *request, std::map<std::string, std::string> *datos);
   std::map<std::string, manejadores::Manejador *> manejadores_;
 };
 

@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
-#include "adaptadores/controlador_led_rojo_verde.hpp"
+#include "adaptadores/controlador_led.hpp"
 #include "adaptadores/servidor_wifi.hpp"
 #include "adaptadores/cliente_wifi.hpp"
 #include "dominio/procesador.hpp"
@@ -14,16 +14,16 @@ const char *servidor_password = "123456789";
 ServidorWiFi *servidor_wifi;
 Procesador *procesador;
 ClienteWiFi *cliente_wifi;
-ControladorLed *controladorLedMain;
+ControladorLuz *controlador_luz;
 VisualizadorDeEstado *visualizador_de_estado;
 int repeticiones = 0;
 unsigned long milisegundos_ultima_ejecucion = 0UL;
 
 void setup()
 {
-  controladorLedMain = new ControladorLedRojoVerde();
+  controlador_luz = new ControladorLed();
   visualizador_de_estado = new VisualizadorDeEstado();
-  visualizador_de_estado->SetControladorLed(controladorLedMain);
+  visualizador_de_estado->SetControladorLuz(controlador_luz);
   procesador = new Procesador();
   procesador->SetVisualizadorDeEstado(visualizador_de_estado);
   cliente_wifi = new ClienteWiFi();
@@ -54,6 +54,7 @@ void loop()
     }
     else
     {
+      visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconectado);
       cliente_wifi->Reconectar();
     }
     repeticiones = 0;

@@ -15,7 +15,7 @@ class Estado : public Manejador
 {
 public:
   Estado(dominio::Procesador *procesador, adaptadores::ClienteWiFi *cliente_wifi);
-  virtual std::string Responder(std::map<std::string, std::string> datos);
+  virtual std::string Responder(std::map<std::string, std::string> *datos);
 
 private:
   dominio::Procesador *procesador_;

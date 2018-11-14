@@ -1,195 +1,242 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 #include "adaptadores/controlador_led.hpp"
-#include "mocks/mock_controlador_led.cpp"
+#include "mocks/mock_controlador_luz.cpp"
 #include "dominio/visualizador_de_estado.hpp"
 
 using namespace dominio;
 using ::testing::AtLeast;
 using ::testing::Return;
 
+//Requerimiento - 2 Color asociado a estado
 TEST(VisualizadorDeEstado, inicializa_en_estado_desconectado)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *mock_controlador_led = new MockControladorLed();
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
 
-    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
 
-    EXPECT_TRUE(mock_controlador_led->LedRojoEncendido());
-    EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
+    EXPECT_TRUE(mock_controlador_luz->LuzAmarillaEncendida());
+    EXPECT_FALSE(mock_controlador_luz->LuzRojaEncendida());
+    EXPECT_FALSE(mock_controlador_luz->LuzVerdeEncendida());
 
     delete visualizador_de_estado;
-    delete mock_controlador_led;
+    delete mock_controlador_luz;
 }
 
-TEST(VisualizadorDeEstado, encender_led_verde_al_cambiar_a_estado_correcto)
+//Requerimiento - 2 Color asociado a estado
+TEST(VisualizadorDeEstado, encender_luz_verde_al_cambiar_a_estado_correcto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *mock_controlador_led = new MockControladorLed();
-    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
 
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
 
-    EXPECT_FALSE(mock_controlador_led->LedRojoEncendido());
-    EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
+    EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+    EXPECT_FALSE(mock_controlador_luz->LuzRojaEncendida());
+    EXPECT_FALSE(mock_controlador_luz->LuzAmarillaEncendida());
 
     delete visualizador_de_estado;
-    delete mock_controlador_led;
+    delete mock_controlador_luz;
 }
 
-TEST(VisualizadorDeEstado, encender_led_rojo_al_cambiar_a_estado_incorrecto)
+//Requerimiento - 2 Color asociado a estado
+TEST(VisualizadorDeEstado, encender_luz_rojo_al_cambiar_a_estado_incorrecto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *mock_controlador_led = new MockControladorLed();
-    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
 
     visualizador_de_estado->SetEstadoDelBuild(kEstadoIncorrecto);
 
-    EXPECT_FALSE(mock_controlador_led->LedVerdeEncendido());
-    EXPECT_TRUE(mock_controlador_led->LedRojoEncendido());
+    EXPECT_FALSE(mock_controlador_luz->LuzVerdeEncendida());
+    EXPECT_TRUE(mock_controlador_luz->LuzRojaEncendida());
+    EXPECT_FALSE(mock_controlador_luz->LuzAmarillaEncendida());
 
     delete visualizador_de_estado;
-    delete mock_controlador_led;
+    delete mock_controlador_luz;
 }
 
-TEST(VisualizadorDeEstado, titileo_de_led_verde_al_cambiar_a_estado_correcto)
+//Requerimiento - 3 Aviso de cambio de estado
+TEST(VisualizadorDeEstado, titileo_de_luz_verde_al_cambiar_a_estado_correcto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *mock_controlador_led = new MockControladorLed();
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
     unsigned long tiempo_de_espera = 10UL;
-
-    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
-    visualizador_de_estado->Actualizar(tiempo_de_espera);
 
-    for (int i = 0; i < 5; i++)
+    EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+    for (int i = 0; i < VisualizadorDeEstado::kParpadeosDeLuz; i++)
     {
-        for (int j = 0; j < 25; j++)
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
         {
             visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
-        EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
-        for (int j = 0; j < 25; j++)
+        EXPECT_FALSE(mock_controlador_luz->LuzVerdeEncendida());
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
         {
             visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
-        EXPECT_FALSE(mock_controlador_led->LedVerdeEncendido());
+        EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
     }
 
     delete visualizador_de_estado;
-    delete mock_controlador_led;
+    delete mock_controlador_luz;
 }
 
-TEST(VisualizadorDeEstado, titileo_de_led_rojo_al_cambiar_a_estado_incorrecto)
+//Requerimiento - 3 Aviso de cambio de estado
+TEST(VisualizadorDeEstado, titileo_de_luz_roja_al_cambiar_a_estado_incorrecto)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *mock_controlador_led = new MockControladorLed();
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
     unsigned long tiempo_de_espera = 10UL;
-
-    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoIncorrecto);
-    visualizador_de_estado->Actualizar(tiempo_de_espera);
 
-    for (int i = 0; i < 5; i++)
+    EXPECT_TRUE(mock_controlador_luz->LuzRojaEncendida());
+    for (int i = 0; i < VisualizadorDeEstado::kParpadeosDeLuz; i++)
     {
-        for (int j = 0; j < 25; j++)
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
         {
             visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
-        EXPECT_TRUE(mock_controlador_led->LedRojoEncendido());
-        for (int j = 0; j < 25; j++)
+        EXPECT_FALSE(mock_controlador_luz->LuzRojaEncendida());
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
         {
             visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
-        EXPECT_FALSE(mock_controlador_led->LedRojoEncendido());
+        EXPECT_TRUE(mock_controlador_luz->LuzRojaEncendida());
     }
 
     delete visualizador_de_estado;
-    delete mock_controlador_led;
+    delete mock_controlador_luz;
 }
 
-TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_desconectado)
+//Requerimiento - 5 Aviso de desconexión
+TEST(VisualizadorDeEstado, titileo_de_luz_amarilla_al_cambiar_a_estado_desconectado)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *mock_controlador_led = new MockControladorLed();
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
     unsigned long tiempo_de_espera = 10UL;
-
-    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
-    visualizador_de_estado->Actualizar(tiempo_de_espera);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconectado);
-    visualizador_de_estado->Actualizar(tiempo_de_espera);
 
-    for (int i = 0; i < 5; i++)
+    EXPECT_TRUE(mock_controlador_luz->LuzAmarillaEncendida());
+    for (int i = 0; i < VisualizadorDeEstado::kParpadeosDeLuz; i++)
     {
-        for (int j = 0; j < 25; j++)
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
         {
             visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
-        EXPECT_TRUE(mock_controlador_led->LedRojoEncendido());
-        EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
-        for (int j = 0; j < 25; j++)
+        EXPECT_FALSE(mock_controlador_luz->LuzAmarillaEncendida());
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
         {
             visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
-        EXPECT_FALSE(mock_controlador_led->LedRojoEncendido());
-        EXPECT_FALSE(mock_controlador_led->LedVerdeEncendido());
+        EXPECT_TRUE(mock_controlador_luz->LuzAmarillaEncendida());
     }
 
     delete visualizador_de_estado;
-    delete mock_controlador_led;
+    delete mock_controlador_luz;
 }
 
-TEST(VisualizadorDeEstado, led_verde_queda_encendido_luego_de_una_espera_mayor_a_las_repeticiones)
+//Requerimiento - 3 Aviso de cambio de estado
+TEST(VisualizadorDeEstado, luz_verde_queda_encendida_luego_de_una_espera_menor_al_parpadeo)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *mock_controlador_led = new MockControladorLed();
-
-    visualizador_de_estado->SetControladorLed(mock_controlador_led);
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoIncorrecto);
-    visualizador_de_estado->Actualizar(10UL);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
 
-    visualizador_de_estado->Actualizar(200UL);
+    visualizador_de_estado->Actualizar(VisualizadorDeEstado::kTiempoDeCadaParpadeo * 2 / 3);
 
-    EXPECT_FALSE(mock_controlador_led->LedVerdeEncendido());
-
-    visualizador_de_estado->Actualizar(8000000UL);
-
-    EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
+    EXPECT_FALSE(mock_controlador_luz->LuzVerdeEncendida());
 
     delete visualizador_de_estado;
-    delete mock_controlador_led;
+    delete mock_controlador_luz;
 }
 
-TEST(VisualizadorDeEstado, titileo_de_led_rojo_y_verde_al_cambiar_a_estado_ejecutando)
+//Requerimiento - 3 Aviso de cambio de estado
+TEST(VisualizadorDeEstado, luz_verde_queda_encendida_luego_de_una_espera_mayor_a_todas_las_repeticiones)
 {
     VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
-    MockControladorLed *mock_controlador_led = new MockControladorLed();
-    unsigned long tiempo_de_espera = 10UL;
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoIncorrecto);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
 
-    visualizador_de_estado->SetControladorLed(mock_controlador_led);
-    visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconectado);
-    visualizador_de_estado->Actualizar(tiempo_de_espera);
+    visualizador_de_estado->Actualizar(VisualizadorDeEstado::kTiempoDeCadaParpadeo * VisualizadorDeEstado::kParpadeosDeLuz * 3);
+
+    EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+
+    delete visualizador_de_estado;
+    delete mock_controlador_luz;
+}
+
+//Requerimiento - 3 Aviso de cambio de estado
+TEST(VisualizadorDeEstado, titileo_de_luz_amarilla_manteniendo_la_verde_encendida_al_cambiar_a_estado_ejecutando_desde_estado_correcto)
+{
+    VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
+    unsigned long tiempo_de_espera = 10UL;
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
     visualizador_de_estado->SetEstadoDelBuild(kEstadoEjecutando);
-    visualizador_de_estado->Actualizar(tiempo_de_espera);
 
-    for (int i = 0; i < 5; i++)
+    EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+    EXPECT_TRUE(mock_controlador_luz->LuzAmarillaEncendida());
+    for (int i = 0; i < VisualizadorDeEstado::kParpadeosDeLuz; i++)
     {
-        for (int j = 0; j < 25; j++)
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
         {
             visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
-        EXPECT_TRUE(mock_controlador_led->LedRojoEncendido());
-        EXPECT_FALSE(mock_controlador_led->LedVerdeEncendido());
-        for (int j = 0; j < 25; j++)
+        EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+        EXPECT_FALSE(mock_controlador_luz->LuzAmarillaEncendida());
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
         {
             visualizador_de_estado->Actualizar(tiempo_de_espera);
         }
-        EXPECT_FALSE(mock_controlador_led->LedRojoEncendido());
-        EXPECT_TRUE(mock_controlador_led->LedVerdeEncendido());
+        EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+        EXPECT_TRUE(mock_controlador_luz->LuzAmarillaEncendida());
     }
 
     delete visualizador_de_estado;
-    delete mock_controlador_led;
+    delete mock_controlador_luz;
+}
+
+//Requerimiento - 3 Aviso de cambio de estado
+TEST(VisualizadorDeEstado, titileo_de_luz_amarilla_manteniendo_la_roja_encendida_al_cambiar_a_estado_ejecutando_desde_estado_incorrecto)
+{
+    VisualizadorDeEstado *visualizador_de_estado = new VisualizadorDeEstado();
+    MockControladorLuz *mock_controlador_luz = new MockControladorLuz();
+    unsigned long tiempo_de_espera = 10UL;
+    visualizador_de_estado->SetControladorLuz(mock_controlador_luz);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoCorrecto);
+    visualizador_de_estado->SetEstadoDelBuild(kEstadoEjecutando);
+
+    EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+    EXPECT_TRUE(mock_controlador_luz->LuzAmarillaEncendida());
+    for (int i = 0; i < VisualizadorDeEstado::kParpadeosDeLuz; i++)
+    {
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
+        {
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
+        }
+        EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+        EXPECT_FALSE(mock_controlador_luz->LuzAmarillaEncendida());
+        for (int j = 0; j < VisualizadorDeEstado::kTiempoDeCadaParpadeo / tiempo_de_espera; j++)
+        {
+            visualizador_de_estado->Actualizar(tiempo_de_espera);
+        }
+        EXPECT_TRUE(mock_controlador_luz->LuzVerdeEncendida());
+        EXPECT_TRUE(mock_controlador_luz->LuzAmarillaEncendida());
+    }
+
+    delete visualizador_de_estado;
+    delete mock_controlador_luz;
 }

@@ -7,7 +7,7 @@
 using namespace dominio;
 using namespace adaptadores;
 
-RequestJenkins::RequestJenkins(const char *url, const char *repositorio, const char *usuario, const char *token)
+RequestJenkins::RequestJenkins(std::string url, std::string repositorio, std::string usuario, std::string token)
 {
     url_ = url;
     repositorio_ = repositorio;

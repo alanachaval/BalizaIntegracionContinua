@@ -2,7 +2,7 @@
 
 using namespace manejadores;
 
-std::string Index::Responder(std::map<std::string, std::string> datos)
+std::string Index::Responder(std::map<std::string, std::string> *datos)
 {
     return "\
 <!DOCTYPE html>\r\n\
@@ -12,11 +12,6 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
   <title>Configuracion Baliza</title>\r\n\
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\r\n\
   <link rel=\"icon\" href=\"data:,\"/>\r\n\
-  <style>\r\n\
-   html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center; }\r\n\
-   .button { background-color: #4CAF50; border: none; color: white; padding: 16px 40px; text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer; }\r\n\
-   .button2 { background-color: #555555; }\r\n\
-  </style>\r\n\
   <script>\r\n\
    function httpPostAsync(url, payload, callback)\r\n\
    {\r\n\
@@ -33,7 +28,7 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
    }\r\n\
    function actualizar()\r\n\
    {\r\n\
-    httpPostAsync(\"/estado\", \"\", function(response)\r\n\
+    httpPostAsync(\"/estado\", \"\\n\\n\", function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
      datos = response.split(/\\r?\\n/g);\r\n\
@@ -45,7 +40,7 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
    {\r\n\
     red_wifi = document.getElementById(\"red_wifi\").value;\r\n\
     clave_red_wifi = document.getElementById(\"clave_red_wifi\").value;\r\n\
-    payload = \"red_wifi:\" + red_wifi + \"\\nclave_red_wifi:\" + clave_red_wifi;\r\n\
+    payload = \"red_wifi:\" + red_wifi + \"\\nclave_red_wifi:\" + clave_red_wifi + \"\\n\\n\";\r\n\
     httpPostAsync(\"/red\", payload, function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
@@ -56,7 +51,7 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
    {\r\n\
     repositorio = document.getElementById(\"repositorio_travis\").value;\r\n\
     token = document.getElementById(\"token_travis\").value;\r\n\
-    payload = \"repositorio:\" + repositorio + \"\\ntoken:\" + token;\r\n\
+    payload = \"repositorio:\" + repositorio + \"\\ntoken:\" + token + \"\\n\\n\";\r\n\
     httpPostAsync(\"/repositorio_travis\", payload, function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
@@ -69,7 +64,7 @@ std::string Index::Responder(std::map<std::string, std::string> datos)
     repositorio = document.getElementById(\"repositorio_jenkins\").value;\r\n\
     usuario = document.getElementById(\"usuario_jenkins\").value;\r\n\
     token = document.getElementById(\"token_jenkins\").value;\r\n\
-    payload = \"url:\" + url + \"\\nrepositorio:\" + repositorio + \"\\nusuario:\" + usuario + \"\\ntoken:\" + token;\r\n\
+    payload = \"url:\" + url + \"\\nrepositorio:\" + repositorio + \"\\nusuario:\" + usuario + \"\\ntoken:\" + token + \"\\n\\n\";\r\n\
     httpPostAsync(\"/repositorio_jenkins\", payload, function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\

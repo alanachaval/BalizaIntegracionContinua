@@ -6,10 +6,10 @@ namespace dominio
 
 enum EstadoDelBuild
 {
-  kEstadoDesconectado = 0,
-  kEstadoCorrecto = 1,
-  kEstadoIncorrecto = 2,
-  kEstadoEjecutando = 3
+  kEstadoDesconectado = 0b1,
+  kEstadoCorrecto = 0b10,
+  kEstadoIncorrecto = 0b100,
+  kEstadoEjecutando = 0b1000
 };
 
 } // namespace dominio

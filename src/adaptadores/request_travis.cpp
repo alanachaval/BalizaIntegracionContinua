@@ -8,7 +8,7 @@
 using namespace dominio;
 using namespace adaptadores;
 
-RequestTravis::RequestTravis(const char *repositorio, const char *token)
+RequestTravis::RequestTravis(std::string repositorio, std::string token)
 {
     repositorio_ = repositorio;
     token_ = token;

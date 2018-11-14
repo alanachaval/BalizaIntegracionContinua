@@ -14,7 +14,7 @@ using namespace adaptadores;
 class RequestJenkins : public Request
 {
 public:
-  RequestJenkins(const char *url, const char *repositorio, const char *usuario, const char *token);
+  RequestJenkins(std::string url, std::string repositorio, std::string usuario, std::string token);
   virtual EstadoDelBuild ObtenerEstado();
   ~RequestJenkins();
 
