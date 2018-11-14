@@ -16,7 +16,7 @@ public:
   void SetControladorLuz(ControladorLuz *controlador_luz);
   void SetEstadoDelBuild(EstadoDelBuild estado_del_build);
   void Actualizar(unsigned long milisegundos);
-  static const unsigned long kTiempoDeCadaParpadeo = 500UL;
+  static const unsigned long kTiempoDeCadaParpadeo = 1000UL;
   static const unsigned long kParpadeosDeLuz = 5UL;
 
 private:
