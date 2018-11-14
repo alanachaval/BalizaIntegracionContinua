@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include "controlador_led.hpp"
 
-#define LED_ROJO 12
-#define LED_VERDE 27
-#define LED_AMARILLO 25 //PENDIENTE CORROBORACION
+#define LED_ROJO 4
+#define LED_VERDE 19
+#define LED_AMARILLO 5
 
 using namespace adaptadores;
 
