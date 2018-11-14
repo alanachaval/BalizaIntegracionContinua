@@ -54,6 +54,7 @@ void loop()
     }
     else
     {
+      visualizador_de_estado->SetEstadoDelBuild(kEstadoDesconectado);
       cliente_wifi->Reconectar();
     }
     repeticiones = 0;
