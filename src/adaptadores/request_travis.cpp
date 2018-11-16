@@ -8,8 +8,9 @@
 using namespace dominio;
 using namespace adaptadores;
 
-RequestTravis::RequestTravis(std::string repositorio, std::string token)
+RequestTravis::RequestTravis(std::string url, std::string repositorio, std::string token)
 {
+    url_ = url;
     repositorio_ = repositorio;
     token_ = token;
     fallos = 0;
@@ -21,7 +22,7 @@ EstadoDelBuild RequestTravis::ObtenerEstado()
     HTTPClient http;
     std::stringstream url;
     std::stringstream token;
-    url << "https://api.travis-ci.org/repo/" << repositorio_ << "/builds?limit=1";
+    url << "https://" << url_ << "/repo/" << repositorio_ << "/builds?limit=1";
     token << "token " << token_;
     http.begin(url.str().c_str());
     http.addHeader("Travis-API-Version", "3", false, false);

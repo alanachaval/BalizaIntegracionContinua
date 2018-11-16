@@ -14,11 +14,12 @@ using namespace adaptadores;
 class RequestTravis : public Request
 {
 public:
-  RequestTravis(std::string repositorio, std::string token);
+  RequestTravis(std::string url, std::string repositorio, std::string token);
   virtual EstadoDelBuild ObtenerEstado();
   ~RequestTravis();
 
 private:
+  std::string url_;
   std::string repositorio_;
   std::string token_;
   int fallos;

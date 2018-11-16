@@ -49,9 +49,10 @@ std::string Index::Responder(std::map<std::string, std::string> *datos)
    }\r\n\
    function setRepositorioTravis()\r\n\
    {\r\n\
+    url = document.getElementById(\"url_travis\").value;\r\n\
     repositorio = document.getElementById(\"repositorio_travis\").value;\r\n\
     token = document.getElementById(\"token_travis\").value;\r\n\
-    payload = \"repositorio:\" + repositorio + \"\\ntoken:\" + token + \"\\n\\n\";\r\n\
+    payload = \"url:\" + url + \"\\nrepositorio:\" + repositorio + \"\\ntoken:\" + token + \"\\n\\n\";\r\n\
     httpPostAsync(\"/repositorio_travis\", payload, function(response)\r\n\
     {\r\n\
      window.alert(response);\r\n\
@@ -153,6 +154,14 @@ std::string Index::Responder(std::map<std::string, std::string> *datos)
    </tr>\r\n\
   </table>\r\n\
   <table id=\"tabla_travis\" border=\"2\">\r\n\
+   <tr>\r\n\
+    <td>\r\n\
+     Url:\r\n\
+    </td>\r\n\
+    <td>\r\n\
+     <input id=\"url_travis\" type=\"text\" name=\"url_travis\" value=\"api.travis-ci.org\">\r\n\
+    </td>\r\n\
+   </tr>\r\n\
    <tr>\r\n\
     <td>\r\n\
      Repositorio:\r\n\
